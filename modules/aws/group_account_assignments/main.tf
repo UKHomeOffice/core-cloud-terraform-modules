@@ -10,7 +10,7 @@ terraform {
 locals {
   flattened_accounts = flatten([
     for account, permission_sets in var.accounts: [
-      for key, permission_set in toset(permission_sets): {
+      for key, permission_set in permission_sets: {
         account_id = account
         permission_set = permission_set
       }
