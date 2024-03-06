@@ -7,10 +7,21 @@ terraform {
   }
 }
 
-data "aws_ssoadmin_permission_set" "identity_center_permission_set" {
-  for_each = var.accounts
+locals {
+  flattened_accounts = flatten([
+    for account, permission_sets in var.accounts: [
+      for key, permission_set in toset(permission_sets): {
+        account_id = account
+        permission_set = permission_set
+      }
+    ]
+  ])
+}
 
-  name = each.value
+data "aws_ssoadmin_permission_set" "identity_center_permission_set" {
+  for_each = { for value in local.flattened_accounts : "${value.account_id}.${value.permission_set}" => value }
+
+  name = each.value.permission_set
   instance_arn = var.identity_store.arn
 }
 
@@ -26,7 +37,7 @@ data "aws_identitystore_group" "identity_store_groups" {
 }
 
 resource "aws_ssoadmin_account_assignment" "user_account_assignments" {
-  for_each = var.accounts
+  for_each = { for value in local.flattened_accounts : "${value.account_id}.${value.permission_set}" => value }
 
   instance_arn       = var.identity_store.arn
   permission_set_arn = data.aws_ssoadmin_permission_set.identity_center_permission_set[each.key].arn
@@ -34,6 +45,6 @@ resource "aws_ssoadmin_account_assignment" "user_account_assignments" {
   principal_id   = data.aws_identitystore_group.identity_store_groups.id
   principal_type = "GROUP"
 
-  target_id   = each.key
+  target_id   = each.value.account_id
   target_type = "AWS_ACCOUNT"
 }

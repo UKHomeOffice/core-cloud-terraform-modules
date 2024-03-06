@@ -8,7 +8,7 @@ variable "identity_store" {
 
 variable "accounts" {
   description = "The AWS accounts to assign the group to."
-  type = map(string)
+  type = map(list(string))
 }
 
 variable "group_name" {

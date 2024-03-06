@@ -18,5 +18,5 @@ module "group_account_assignments" {
 
 This module expects the variables to conform to the following:
 - `group_name` - Must be a string between 1 and 64 characters.
-- `accounts` - Key/Value pairing of the account ID and the permission set.
+- `accounts` - Key/Value pairing of the account ID and a list of permission sets.
 - `identity_store` - Must be a valid Identity Store object that contains both the `id` and `arn` attributes.
