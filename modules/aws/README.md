@@ -10,4 +10,5 @@ The following modules are available:
 - [Group User Memberships](./group_user_memberships/README.md)
 - [Groups](./groups/README.md)
 - [Identity Center Instance](./ssoadmin_instance/README.md)
+- [Permission Sets](./permission_sets/README.md)
 - [Users](./users/README.md)
