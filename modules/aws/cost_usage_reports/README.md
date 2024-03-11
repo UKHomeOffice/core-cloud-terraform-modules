@@ -1,6 +1,6 @@
 # Core Cloud AWS Cost & Usage Report Module
 
-This module is responsible for creating and managing Cost and Usage Reports in AWS.
+This module is responsible for creating and managing Cost and Usage Reports  and their related infrastructure in AWS.
 
 ## Usage
 

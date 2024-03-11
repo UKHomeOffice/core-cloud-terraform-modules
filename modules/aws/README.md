@@ -12,5 +12,4 @@ The following modules are available:
 - [Permission Sets](./permission_sets/README.md)
 - [Identity Center Instance](./ssoadmin_instance/README.md)
 - [Users](./users/README.md)
-- [S3 Buckets](./s3_buckets/README.md)
 - [Cost and Usage Reports](./cost_usage_reports/README.md)

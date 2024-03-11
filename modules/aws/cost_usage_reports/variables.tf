@@ -97,3 +97,8 @@ variable "report_versioning" {
   type        = string
   description = "Overwrite the previous version of each report or to deliver the report in addition to the previous versions. Valid values are (CREATE_NEW_REPORT and OVERWRITE_REPORT)"
 }
+
+variable "iam_role" {
+  type        = string
+  description = "Friendly name of the role. If omitted, Terraform will assign a random, unique name"
+}

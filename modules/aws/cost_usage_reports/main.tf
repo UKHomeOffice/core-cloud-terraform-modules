@@ -20,3 +20,33 @@ resource "aws_cur_report_definition" "cur_report_definitions" {
   refresh_closed_reports     = var.refresh_closed_reports
   report_versioning          = var.report_versioning
 }
+
+resource "aws_s3_bucket" "s3_buckets" {
+  bucket = var.bucket_name
+}
+
+resource "aws_iam_role" "cur_role" {
+  name = var.iam_role
+  assume_role_policy = jsonencode({
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Action" : "sts:AssumeRole",
+        "Principal" : {
+          "Service" : "s3.amazonaws.com"
+        },
+        "Effect" : "Allow",
+        "Sid" : ""
+      }
+    ]
+  })
+}
+
+## ADD INLINE POLICY TO ROLE ABOVE
+
+## S3 BUCKET POLICY
+
+## S3 LIFECYCLE RULE
+
+## REPLICATION RULE
+
