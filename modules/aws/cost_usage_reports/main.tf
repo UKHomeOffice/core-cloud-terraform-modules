@@ -26,7 +26,7 @@ resource "aws_cur_report_definition" "cur_report_definitions" {
 resource "aws_s3_bucket" "s3_buckets" {
   bucket = var.bucket_name
   region = var.bucket_region
- }
+}
 
 #S3 SETTINGS
 resource "aws_s3_bucket_ownership_controls" "bucket_ownership_controls" {
@@ -55,7 +55,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "encryption_rules"
 
   rule {
     apply_server_side_encryption_by_default {
-      sse_algorithm     = "AES256"
+      sse_algorithm = "AES256"
     }
   }
 }
@@ -78,49 +78,80 @@ resource "aws_iam_role" "cur_role" {
   })
 
   inline_policy {
-   name = var.inline_policy_name
+    name = var.inline_policy_name
 
-   policy = jsonencode({
-      Version = "2012-10-17"
-      Statement = [
-              {
-                  Action = [
-                      "s3:GetReplicationConfiguration",
-                      "s3:ListBucket"
-                  ]
-                  Resource = "arn:aws:s3:::cid-${var.billing_account}-central-finops-local",
-                  Effect = "Allow"
-              },
-              {
-                  Action = [
-                      "s3:GetObjectVersionForReplication",
-                      "s3:GetObjectVersionAcl"
-                  ],
-                  Resource = "arn:aws:s3:::cid-${var.billing_account}-central-finops-local/*",
-                  Effect = "Allow"
-              },
-              {
-                  Action = [
-                      "s3:ReplicateObject",
-                      "s3:ReplicateDelete",
-                      "s3:ReplicateTags",
-                      "s3:GetObjectVersionTagging"
-                  ]
-                  Resource = "arn:aws:s3:::cid-873134405383-shared/cur/${var.billing_account}/*",
-                  Effect = "Allow"
-              },
+    policy = jsonencode({
+      "Version" : "2012-10-17",
+      "Statement" : [
+        {
+          "Action"  : [
+            "s3:GetReplicationConfiguration",
+            "s3:ListBucket"
+          ],
+          "Resource" : "arn:aws:s3:::cid-${var.billing_account}-central-finops-local",
+          "Effect"   : "Allow"
+        },
+        {
+          "Action"   : [
+            "s3:GetObjectVersionForReplication",
+            "s3:GetObjectVersionAcl"
+          ],
+          "Resource" : "arn:aws:s3:::cid-${var.billing_account}-central-finops-local/*",
+          "Effect"   : "Allow"
+        },
+        {
+          "Action"   : [
+            "s3:ReplicateObject",
+            "s3:ReplicateDelete",
+            "s3:ReplicateTags",
+            "s3:GetObjectVersionTagging"
+          ],
+          "Resource" : "arn:aws:s3:::cid-873134405383-shared/cur/${var.billing_account}/*",
+          "Effect"   : "Allow"
+        }
       ]
-   })
- }
+    })
+  }
 }
 
-
 #S3 BUCKET POLICY
+resource "aws_s3_bucket_policy" "cur_S3_bucket_policy" {
+  bucket = var.bucket_name
+  policy = jsonencode({
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Effect": "Allow",
+        "Principal": {
+          "Service": ["billingreports.amazonaws.com", "bcm-data-export.amazonaws.com"]
+        },
+        "Action" : [
+          "s3:PutObject",
+          "s3:GetBucketPolicy"
+        ],
+        "Resource" : [
+          "arn:aws:s3:::cid-${var.billing_account}-central-finops-local",
+          "arn:aws:s3:::cid-${var.billing_account}-central-finops-local/*"
+        ],
+        "Condition": {
+          "StringLike": {
+            "aws:SourceAccount": var.billing_account,
+            "aws:StringLike" : [
+              "arn:aws:cur:us-east-1:${var.billing_account}:definition/*",
+              "arn:aws:bcm-data-exports:us-east-1:${var.billing_account}:export/*"
+            ]
+          }
+        }
+      }
+    ]
+  })
+}
+
 
 #S3 LIFECYCLE RULE
 resource "aws_s3_bucket_lifecycle_configuration" "cur_bucket_lifecycle_rule" {
   depends_on = [aws_s3_bucket_versioning.versioning_rules]
-  bucket = var.bucket_name
+  bucket     = var.bucket_name
   rule {
     id = var.lifecycle_rule
 
@@ -133,18 +164,19 @@ resource "aws_s3_bucket_lifecycle_configuration" "cur_bucket_lifecycle_rule" {
     expiration {
       days = var.expiration_days
     }
-      status = "Enabled"
+    status = "Enabled"
+  }
 }
 
 # REPLICATION RULE
 resource "aws_s3_bucket_replication_configuration" "cur_bucket_replication_rule" {
   depends_on = [aws_s3_bucket_versioning.versioning_rules]
-  bucket = var.bucket_name
-  role = aws_iam_role.cur_role
+  bucket     = var.bucket_name
+  role       = aws_iam_role.cur_role
   rule {
-      id = var.replication_rule
+    id = var.replication_rule
 
-      filter {}
+    filter {}
 
     destination {
       bucket        = var.destination_bucket
@@ -157,9 +189,9 @@ resource "aws_s3_bucket_replication_configuration" "cur_bucket_replication_rule"
 
     source_selection_criteria {
       sse_kms_encrypted_objects {
-        status = "Enabled"
+        status = "Disabled"
       }
     }
-      status = "Enabled"
- }
+    status = "Enabled"
+  }
 }
