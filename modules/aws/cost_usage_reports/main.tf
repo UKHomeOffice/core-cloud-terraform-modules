@@ -115,9 +115,9 @@ resource "aws_iam_role" "cur_role" {
 }
 
 
-## S3 BUCKET POLICY
+#S3 BUCKET POLICY
 
-## S3 LIFECYCLE RULE
+#S3 LIFECYCLE RULE
 resource "aws_s3_bucket_lifecycle_configuration" "cur_bucket_lifecycle_rule" {
   depends_on = [aws_s3_bucket_versioning.versioning_rules]
   bucket = var.bucket_name
@@ -136,5 +136,30 @@ resource "aws_s3_bucket_lifecycle_configuration" "cur_bucket_lifecycle_rule" {
       status = "Enabled"
 }
 
-## REPLICATION RULE
+# REPLICATION RULE
+resource "aws_s3_bucket_replication_configuration" "cur_bucket_replication_rule" {
+  depends_on = [aws_s3_bucket_versioning.versioning_rules]
+  bucket = var.bucket_name
+  role = aws_iam_role.cur_role
+  rule {
+      id = var.replication_rule
 
+      filter {}
+
+    destination {
+      bucket        = var.destination_bucket
+      storage_class = "STANDARD"
+    }
+
+    delete_marker_replication {
+      status = "Enabled"
+    }
+
+    source_selection_criteria {
+      sse_kms_encrypted_objects {
+        status = "Enabled"
+      }
+    }
+      status = "Enabled"
+ }
+}
