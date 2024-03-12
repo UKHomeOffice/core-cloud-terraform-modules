@@ -14,7 +14,7 @@ resource "aws_cur_report_definition" "cur_report_definitions" {
   format                     = var.format
   compression                = var.compression
   additional_schema_elements = var.additional_schema_elements
-  s3_bucket                  = var.bucket_name
+  s3_bucket                  = aws_s3_bucket.s3_buckets.id
   s3_region                  = var.bucket_region
   additional_artifacts       = var.additional_artifacts
   s3_prefix                  = var.s3_prefix
@@ -181,7 +181,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "cur_bucket_lifecycle_rule" {
 resource "aws_s3_bucket_replication_configuration" "cur_bucket_replication_rule" {
   depends_on = [aws_s3_bucket_versioning.versioning_rules]
   bucket     = var.bucket_name
-  role       = aws_iam_role.cur_role
+  role       = aws_iam_role.cur_role.arn
   rule {
     id = var.replication_rule
 
