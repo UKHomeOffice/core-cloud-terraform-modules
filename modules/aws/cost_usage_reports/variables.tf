@@ -102,3 +102,47 @@ variable "iam_role" {
   type        = string
   description = "Friendly name of the role. If omitted, Terraform will assign a random, unique name"
 }
+
+variable "lifecycle_rule" {
+  type        = string
+  description = "The name of the lifecycle rule applied to S3"
+
+  validation {
+    condition     = length(var.lifecycle_rule) >= 1 && length(var.lifecycle_rule) <= 256
+    error_message = "The lifecycle_rule name must be less than 256 characters."
+
+variable "noncurrent_version_expiration_days" {
+  type        = number
+  description = "The Number of days an object is noncurrent before Amazon S3 can perform the associated action."
+
+  validation {
+    condition     = var.noncurrent_version_expiration_days > 0
+    error_message = "The noncurrent_version_expiration_days variable must be a positive integer."
+
+variable "expiration_days" {
+  type        = number
+  description = "The lifetime, in days, of the objects that are subject to the rule.."
+
+  validation {
+    condition     = var.expiration_days > 0
+    error_message = "The expiration_days variable must be a positive integer."
+
+variable "inline_policy_name" {
+  type        = string
+  description = "Name of the role policy."
+
+  validation {
+      condition     = length(var.inline_policy_name) >= 1 && length(var.inline_policy_name) <= 256
+      error_message = "The inline_policy_name must be less than 256 characters."
+    }
+}
+
+variable "billing_account" {
+  type        = string
+  description = "AccountID for the billing account"
+
+  validation {
+      condition     = length(var.billing_account) = 12
+      error_message = "The billing_account id must be 12 characters."
+    }
+}
