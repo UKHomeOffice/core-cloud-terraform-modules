@@ -61,7 +61,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "encryption_rules"
 }
 
 resource "aws_s3_bucket_public_access_block" "cur_public_access_block" {
-  bucket = var.bucket_name
+  bucket = aws_s3_bucket.s3_buckets.id
 
   block_public_acls       = true
   block_public_policy     = true
