@@ -84,30 +84,30 @@ resource "aws_iam_role" "cur_role" {
       "Version" : "2012-10-17",
       "Statement" : [
         {
-          "Action"  : [
+          "Action" : [
             "s3:GetReplicationConfiguration",
             "s3:ListBucket"
           ],
           "Resource" : "arn:aws:s3:::cid-${var.billing_account}-central-finops-local",
-          "Effect"   : "Allow"
+          "Effect" : "Allow"
         },
         {
-          "Action"   : [
+          "Action" : [
             "s3:GetObjectVersionForReplication",
             "s3:GetObjectVersionAcl"
           ],
           "Resource" : "arn:aws:s3:::cid-${var.billing_account}-central-finops-local/*",
-          "Effect"   : "Allow"
+          "Effect" : "Allow"
         },
         {
-          "Action"   : [
+          "Action" : [
             "s3:ReplicateObject",
             "s3:ReplicateDelete",
             "s3:ReplicateTags",
             "s3:GetObjectVersionTagging"
           ],
           "Resource" : "arn:aws:s3:::cid-873134405383-shared/cur/${var.billing_account}/*",
-          "Effect"   : "Allow"
+          "Effect" : "Allow"
         }
       ]
     })
@@ -121,9 +121,9 @@ resource "aws_s3_bucket_policy" "cur_S3_bucket_policy" {
     "Version" : "2012-10-17",
     "Statement" : [
       {
-        "Effect": "Allow",
-        "Principal": {
-          "Service": ["billingreports.amazonaws.com", "bcm-data-export.amazonaws.com"]
+        "Effect" : "Allow",
+        "Principal" : {
+          "Service" : ["billingreports.amazonaws.com", "bcm-data-export.amazonaws.com"]
         },
         "Action" : [
           "s3:PutObject",
@@ -133,9 +133,9 @@ resource "aws_s3_bucket_policy" "cur_S3_bucket_policy" {
           "arn:aws:s3:::cid-${var.billing_account}-central-finops-local",
           "arn:aws:s3:::cid-${var.billing_account}-central-finops-local/*"
         ],
-        "Condition": {
-          "StringLike": {
-            "aws:SourceAccount": var.billing_account,
+        "Condition" : {
+          "StringLike" : {
+            "aws:SourceAccount" : var.billing_account,
             "aws:StringLike" : [
               "arn:aws:cur:us-east-1:${var.billing_account}:definition/*",
               "arn:aws:bcm-data-exports:us-east-1:${var.billing_account}:export/*"

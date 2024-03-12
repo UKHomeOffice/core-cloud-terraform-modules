@@ -63,8 +63,8 @@ variable "bucket_region" {
   description = "Region of the existing S3 bucket to hold generated reports."
 
   validation {
-    condition     = length(var.bucket_region) >= 1 && length(var.bucket_region) <= 20
-    error_message = "The bucket_region name must be less than 20 characters."
+    condition     = can(regex("[a-z][a-z]-[a-z]+-[1-9]", var.bucket_region))
+    error_message = "Must be valid AWS Region names."
   }
 }
 
@@ -110,6 +110,8 @@ variable "lifecycle_rule" {
   validation {
     condition     = length(var.lifecycle_rule) >= 1 && length(var.lifecycle_rule) <= 256
     error_message = "The lifecycle_rule name must be less than 256 characters."
+  }
+}
 
 variable "noncurrent_version_expiration_days" {
   type        = number
@@ -118,6 +120,8 @@ variable "noncurrent_version_expiration_days" {
   validation {
     condition     = var.noncurrent_version_expiration_days > 0
     error_message = "The noncurrent_version_expiration_days variable must be a positive integer."
+  }
+}
 
 variable "expiration_days" {
   type        = number
@@ -126,15 +130,17 @@ variable "expiration_days" {
   validation {
     condition     = var.expiration_days > 0
     error_message = "The expiration_days variable must be a positive integer."
+  }
+}
 
 variable "inline_policy_name" {
   type        = string
   description = "Name of the role policy."
 
   validation {
-      condition     = length(var.inline_policy_name) >= 1 && length(var.inline_policy_name) <= 256
-      error_message = "The inline_policy_name must be less than 256 characters."
-    }
+    condition     = length(var.inline_policy_name) >= 1 && length(var.inline_policy_name) <= 256
+    error_message = "The inline_policy_name must be less than 256 characters."
+  }
 }
 
 variable "billing_account" {
@@ -142,9 +148,9 @@ variable "billing_account" {
   description = "AccountID for the billing account"
 
   validation {
-      condition     = length(var.billing_account) = 12
-      error_message = "The billing_account id must be 12 characters."
-    }
+    condition     = length(var.billing_account) == 12
+    error_message = "The billing_account id must be 12 characters."
+  }
 }
 
 variable "replication_rule" {
@@ -154,6 +160,8 @@ variable "replication_rule" {
   validation {
     condition     = length(var.replication_rule) >= 1 && length(var.replication_rule) <= 256
     error_message = "The replication_rule name must be less than 256 characters."
+  }
+}
 
 variable "destination_bucket" {
   type        = string
