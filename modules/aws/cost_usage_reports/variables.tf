@@ -78,16 +78,6 @@ variable "additional_artifacts" {
   }
 }
 
-variable "s3_prefix" {
-  type        = string
-  description = "Report path prefix."
-
-  validation {
-    condition     = length(var.s3_prefix) >= 1 && length(var.s3_prefix) <= 256
-    error_message = "The s3_prefix must be less than 256 characters."
-  }
-}
-
 variable "refresh_closed_reports" {
   type        = string
   description = "Set to true to update your reports after they have been finalized if AWS detects charges related to previous months."

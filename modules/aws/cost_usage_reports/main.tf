@@ -28,7 +28,7 @@ resource "aws_cur_report_definition" "cur_report_definitions" {
   s3_bucket                  = aws_s3_bucket.s3_buckets.id
   s3_region                  = var.bucket_region
   additional_artifacts       = var.additional_artifacts
-  s3_prefix                  = var.s3_prefix
+  s3_prefix                  = "cur/${var.billing_account}"
   refresh_closed_reports     = var.refresh_closed_reports
   report_versioning          = var.report_versioning
 }
