@@ -38,4 +38,3 @@ resource "aws_identitystore_group_membership" "group_membership" {
   group_id = data.aws_identitystore_group.identity_store_groups.id
   member_id = data.aws_identitystore_user.identity_store_users[each.key].id
 }
-

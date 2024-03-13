@@ -22,4 +22,3 @@ variable "group_name" {
     error_message = "The group name must be less than 64 characters."
   }
 }
-
