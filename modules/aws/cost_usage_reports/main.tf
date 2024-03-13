@@ -7,8 +7,19 @@ terraform {
   }
 }
 
+provider "aws" {
+  region = "eu-west-2"
+}
+
+provider "aws" {
+  region  = "us-east-1"
+  alias   = "us-east-1"
+}
+
 #COST AND USAGE REPORT
 resource "aws_cur_report_definition" "cur_report_definitions" {
+  depends_on = [aws_iam_role.cur_role, aws_s3_bucket_policy.cur_S3_bucket_policy]
+  provider                   = aws.us-east-1
   report_name                = var.report_name
   time_unit                  = var.time_unit
   format                     = var.format
@@ -25,7 +36,6 @@ resource "aws_cur_report_definition" "cur_report_definitions" {
 #S3 BUCKET
 resource "aws_s3_bucket" "s3_buckets" {
   bucket = var.bucket_name
-  region = var.bucket_region
 }
 
 #S3 SETTINGS
@@ -34,13 +44,6 @@ resource "aws_s3_bucket_ownership_controls" "bucket_ownership_controls" {
   rule {
     object_ownership = "BucketOwnerEnforced"
   }
-}
-
-resource "aws_s3_bucket_acl" "bucket_acls" {
-  depends_on = [aws_s3_bucket_ownership_controls.example]
-
-  bucket = aws_s3_bucket.s3_buckets.id
-  acl    = "private"
 }
 
 resource "aws_s3_bucket_versioning" "versioning_rules" {
@@ -125,34 +128,42 @@ resource "aws_iam_role" "cur_role" {
 
 #S3 BUCKET POLICY
 resource "aws_s3_bucket_policy" "cur_S3_bucket_policy" {
-  bucket = var.bucket_name
+  bucket = aws_s3_bucket.s3_buckets.id
   policy = jsonencode({
     "Version" : "2012-10-17",
-    "Statement" : [
-      {
-        "Effect" : "Allow",
-        "Principal" : {
-          "Service" : ["billingreports.amazonaws.com", "bcm-data-export.amazonaws.com"]
-        },
-        "Action" : [
-          "s3:PutObject",
-          "s3:GetBucketPolicy"
-        ],
-        "Resource" : [
-          "arn:aws:s3:::cid-${var.billing_account}-central-finops-local",
-          "arn:aws:s3:::cid-${var.billing_account}-central-finops-local/*"
-        ],
-        "Condition" : {
-          "StringLike" : {
-            "aws:SourceAccount" : var.billing_account,
-            "aws:StringLike" : [
-              "arn:aws:cur:us-east-1:${var.billing_account}:definition/*",
-              "arn:aws:bcm-data-exports:us-east-1:${var.billing_account}:export/*"
-            ]
-          }
-        }
-      }
-    ]
+    "Statement": [
+                  {
+                      "Effect": "Allow",
+                      "Principal": {
+                          "Service": "billingreports.amazonaws.com"
+                      },
+                      "Action": [
+                          "s3:GetBucketAcl",
+                          "s3:GetBucketPolicy"
+                      ],
+                      "Resource": aws_s3_bucket.s3_buckets.arn,
+                      "Condition": {
+                          "StringEquals": {
+                              "aws:SourceAccount": var.billing_account,
+                              "aws:SourceArn": "arn:aws:cur:us-east-1:${var.billing_account}:definition/*"
+                          }
+                      }
+                  },
+                  {
+                      "Effect": "Allow",
+                      "Principal": {
+                          "Service": "billingreports.amazonaws.com"
+                      },
+                      "Action": "s3:PutObject",
+                      "Resource": "${aws_s3_bucket.s3_buckets.arn}/*",
+                      "Condition": {
+                          "StringEquals": {
+                              "aws:SourceAccount": var.billing_account,
+                              "aws:SourceArn": "arn:aws:cur:us-east-1:${var.billing_account}:definition/*"
+                          }
+                      }
+                  }
+              ]
   })
 }
 
@@ -160,7 +171,7 @@ resource "aws_s3_bucket_policy" "cur_S3_bucket_policy" {
 #S3 LIFECYCLE RULE
 resource "aws_s3_bucket_lifecycle_configuration" "cur_bucket_lifecycle_rule" {
   depends_on = [aws_s3_bucket_versioning.versioning_rules]
-  bucket     = var.bucket_name
+  bucket     = aws_s3_bucket.s3_buckets.id
   rule {
     id = var.lifecycle_rule
 
@@ -177,10 +188,10 @@ resource "aws_s3_bucket_lifecycle_configuration" "cur_bucket_lifecycle_rule" {
   }
 }
 
-# REPLICATION RULE
+/* # REPLICATION RULE
 resource "aws_s3_bucket_replication_configuration" "cur_bucket_replication_rule" {
   depends_on = [aws_s3_bucket_versioning.versioning_rules]
-  bucket     = var.bucket_name
+  bucket     = aws_s3_bucket.s3_buckets.id
   role       = aws_iam_role.cur_role.arn
   rule {
     id = var.replication_rule
@@ -203,4 +214,4 @@ resource "aws_s3_bucket_replication_configuration" "cur_bucket_replication_rule"
     }
     status = "Enabled"
   }
-}
+} */

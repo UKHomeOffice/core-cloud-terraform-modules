@@ -39,11 +39,11 @@ variable "compression" {
 }
 
 variable "additional_schema_elements" {
-  type        = string
+  type        = list(string)
   description = "A list of schema elements."
 
   validation {
-    condition     = contains(["RESOURCES", "SPLIT_COST_ALLOCATION_DATA"], var.additional_schema_elements)
+    condition     = contains(var.additional_schema_elements, "RESOURCES") || contains(var.additional_schema_elements, "SPLIT_COST_ALLOCATION_DATA" )
     error_message = "Valid values for additional_schema_elements are (RESOURCES, SPLIT_COST_ALLOCATION_DATA)"
   }
 }
@@ -69,11 +69,11 @@ variable "bucket_region" {
 }
 
 variable "additional_artifacts" {
-  type        = string
+  type        = list(string)
   description = "A list of additional artifacts."
 
   validation {
-    condition     = contains(["REDSHIFT", "QUICKSHIFT", "ATHENA"], var.additional_artifacts)
+    condition     = contains(var.additional_artifacts, "REDSHIFT") || contains(var.additional_artifacts, "QUICKSHIFT") || contains(var.additional_artifacts, "ATHENA")
     error_message = "Valid values for time_unit are (REDSHIFT, QUICKSHIFT, ATHENA)"
   }
 }
@@ -153,7 +153,7 @@ variable "billing_account" {
   }
 }
 
-variable "replication_rule" {
+/* variable "replication_rule" {
   type        = string
   description = "The name of the replication rule applied to S3"
 
@@ -163,7 +163,7 @@ variable "replication_rule" {
   }
 }
 
-variable "destination_bucket" {
+#variable "destination_bucket" {
   type        = string
   description = "The ARN of the existing s3 bucket to replicate generated reports to."
 
@@ -171,4 +171,4 @@ variable "destination_bucket" {
     condition     = length(var.destination_bucket) >= 1 && length(var.destination_bucket) <= 256
     error_message = "The destination_bucket ARN must be less than 256 characters."
   }
-}
+} */
