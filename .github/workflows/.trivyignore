@@ -1,0 +1,3 @@
+# Ignore required S3 configuration for CUDOS setup
+s3:
+   - "^aws_s3_bucket_server_side_encryption_configuration"
