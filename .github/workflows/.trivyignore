@@ -1,3 +1,5 @@
-# Ignore required S3 configuration for CUDOS setup
-s3:
-   - "^aws_s3_bucket_server_side_encryption_configuration"
+#Ignore requirement for S3 logging bucket as per CUDOS setup instructions
+aws-0089
+
+#Ignore requirement for customer managed key for S3 encryption as per CUDOS setup instructions
+aws-0132
