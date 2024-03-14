@@ -30,4 +30,11 @@ variable "inline_policies" {
     actions        = list(string)
     resources = list(string)
   }))
+  default = []
+}
+
+variable "managed_policies" {
+  description = "The inline policy to attach to the permission set."
+  type        = list(string)
+  default = []
 }
