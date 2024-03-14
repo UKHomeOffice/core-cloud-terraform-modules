@@ -25,16 +25,16 @@ variable "identity_store_arn" {
 
 variable "inline_policies" {
   description = "The inline policy to attach to the permission set."
-  type        = list(object({
+  type        = optional(list(object({
     sid       = optional(string)
     actions        = list(string)
     resources = list(string)
-  }))
+  })))
   default = []
 }
 
 variable "managed_policies" {
   description = "The inline policy to attach to the permission set."
-  type        = list(string)
+  type        = optional(list(string))
   default = []
 }
