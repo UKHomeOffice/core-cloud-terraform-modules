@@ -13,8 +13,8 @@ module "permission_sets" {
   name                = <VALUE>
   description         = <VALUE>
   identity_store_arn  = <VALUE>
-  inline_policies     = ARRAY(<INLINE_POLICY>)
-  managed_policies    = ARRAY(<MANAGED_POLICY_NAME>)
+  inline_policies     = OPTIONAL(ARRAY(<INLINE_POLICY>))
+  managed_policies    = OPTIONAL(ARRAY(<MANAGED_POLICY_NAME>))
 }
 ```
 
