@@ -143,7 +143,7 @@ variable "billing_account" {
   }
 }
 
-/* variable "replication_rule" {
+variable "replication_rule" {
   type        = string
   description = "The name of the replication rule applied to S3"
 
@@ -153,7 +153,7 @@ variable "billing_account" {
   }
 }
 
-#variable "destination_bucket" {
+variable "destination_bucket" {
   type        = string
   description = "The ARN of the existing s3 bucket to replicate generated reports to."
 
@@ -161,4 +161,4 @@ variable "billing_account" {
     condition     = length(var.destination_bucket) >= 1 && length(var.destination_bucket) <= 256
     error_message = "The destination_bucket ARN must be less than 256 characters."
   }
-} */
+} 

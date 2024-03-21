@@ -188,7 +188,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "cur_bucket_lifecycle_rule" {
   }
 }
 
-/* # REPLICATION RULE
+# REPLICATION RULE
 resource "aws_s3_bucket_replication_configuration" "cur_bucket_replication_rule" {
   depends_on = [aws_s3_bucket_versioning.versioning_rules]
   bucket     = aws_s3_bucket.s3_buckets.id
@@ -214,4 +214,4 @@ resource "aws_s3_bucket_replication_configuration" "cur_bucket_replication_rule"
     }
     status = "Enabled"
   }
-} */
+}
