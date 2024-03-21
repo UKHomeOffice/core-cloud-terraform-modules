@@ -207,11 +207,6 @@ resource "aws_s3_bucket_replication_configuration" "cur_bucket_replication_rule"
       status = "Enabled"
     }
 
-    source_selection_criteria {
-      sse_kms_encrypted_objects {
-        status = "Disabled"
-      }
-    }
     status = "Enabled"
   }
 }
