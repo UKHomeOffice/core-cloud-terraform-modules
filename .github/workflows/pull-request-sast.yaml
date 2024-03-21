@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   RunTerraformValidation:
-    name: Run Terraform Validation
+    name: Run Terraform SAST
     runs-on: ubuntu-latest
 
     steps:
@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v4
 
       # Results have to be a table as the organisation does not have Advanced Security license.
-      - name: Run Trivy against Terraform
+      - name: Terraform Trivy Scan
         uses: aquasecurity/trivy-action@0.18.0
         with:
           scan-type: 'config'

@@ -13,7 +13,8 @@ module "permission_sets" {
   name                = <VALUE>
   description         = <VALUE>
   identity_store_arn  = <VALUE>
-  inline_policies     = ARRAY(<INLINE_POLICY>)
+  inline_policies     = OPTIONAL(ARRAY(<INLINE_POLICY>))
+  managed_policies    = OPTIONAL(ARRAY(<MANAGED_POLICY_NAME>))
 }
 ```
 
@@ -23,7 +24,8 @@ This module expects the variables to conform to the following:
 - `name` - Must be a string between 1 and 64 characters.
 - `description` - Must be a string between 1 and 256 characters.
 - `identity_store_arn` - Must be a valid Identity Store ARN.
-- `inline_policies` - Must be a list of objects that conforms to [Inline Policy](#inline-policy) schema.
+- `inline_policies` - Must be a list of objects that conforms to [Inline Policy](#inline-policy) schema. Can be empty.
+- `managed_policies` - Must be a list of strings that are valid managed policy names. Can be empty.
 
 ### Inline Policy
 
