@@ -161,4 +161,4 @@ variable "destination_bucket" {
     condition     = length(var.destination_bucket) >= 1 && length(var.destination_bucket) <= 256
     error_message = "The destination_bucket ARN must be less than 256 characters."
   }
-} 
+}

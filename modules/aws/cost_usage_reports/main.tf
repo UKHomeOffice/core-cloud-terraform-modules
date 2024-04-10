@@ -201,6 +201,7 @@ resource "aws_s3_bucket_replication_configuration" "cur_bucket_replication_rule"
     destination {
       bucket        = var.destination_bucket
       storage_class = "STANDARD"
+      metrics       = "Enabled"
     }
 
     delete_marker_replication {
