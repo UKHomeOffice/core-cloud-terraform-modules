@@ -162,6 +162,20 @@ resource "aws_s3_bucket_policy" "cur_S3_bucket_policy" {
             "aws:SourceArn" : "arn:aws:cur:us-east-1:${var.billing_account}:definition/*"
           }
         }
+      },
+      {
+        "Effect" : "Deny",
+        "Principal" : "*",
+        "Action" : "s3:*",
+        "Resource" : [
+          "arn:aws:s3:::cid-${var.billing_account}-central-finops-local",
+          "arn:aws:s3:::cid-${var.billing_account}-central-finops-local/*",
+        ],
+        "Condition" : {
+          "Bool" : {
+            "aws:SecureTransport" = "false"
+          }
+        }
       }
     ]
   })
