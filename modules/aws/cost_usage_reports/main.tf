@@ -12,13 +12,13 @@ provider "aws" {
 }
 
 provider "aws" {
-  region  = "us-east-1"
-  alias   = "us-east-1"
+  region = "us-east-1"
+  alias  = "us-east-1"
 }
 
 #COST AND USAGE REPORT
 resource "aws_cur_report_definition" "cur_report_definitions" {
-  depends_on = [aws_iam_role.cur_role, aws_s3_bucket_policy.cur_S3_bucket_policy]
+  depends_on                 = [aws_iam_role.cur_role, aws_s3_bucket_policy.cur_S3_bucket_policy]
   provider                   = aws.us-east-1
   report_name                = var.report_name
   time_unit                  = var.time_unit
@@ -131,39 +131,39 @@ resource "aws_s3_bucket_policy" "cur_S3_bucket_policy" {
   bucket = aws_s3_bucket.s3_buckets.id
   policy = jsonencode({
     "Version" : "2012-10-17",
-    "Statement": [
-                  {
-                      "Effect": "Allow",
-                      "Principal": {
-                          "Service": "billingreports.amazonaws.com"
-                      },
-                      "Action": [
-                          "s3:GetBucketAcl",
-                          "s3:GetBucketPolicy"
-                      ],
-                      "Resource": aws_s3_bucket.s3_buckets.arn,
-                      "Condition": {
-                          "StringEquals": {
-                              "aws:SourceAccount": var.billing_account,
-                              "aws:SourceArn": "arn:aws:cur:us-east-1:${var.billing_account}:definition/*"
-                          }
-                      }
-                  },
-                  {
-                      "Effect": "Allow",
-                      "Principal": {
-                          "Service": "billingreports.amazonaws.com"
-                      },
-                      "Action": "s3:PutObject",
-                      "Resource": "${aws_s3_bucket.s3_buckets.arn}/*",
-                      "Condition": {
-                          "StringEquals": {
-                              "aws:SourceAccount": var.billing_account,
-                              "aws:SourceArn": "arn:aws:cur:us-east-1:${var.billing_account}:definition/*"
-                          }
-                      }
-                  }
-              ]
+    "Statement" : [
+      {
+        "Effect" : "Allow",
+        "Principal" : {
+          "Service" : "billingreports.amazonaws.com"
+        },
+        "Action" : [
+          "s3:GetBucketAcl",
+          "s3:GetBucketPolicy"
+        ],
+        "Resource" : aws_s3_bucket.s3_buckets.arn,
+        "Condition" : {
+          "StringEquals" : {
+            "aws:SourceAccount" : var.billing_account,
+            "aws:SourceArn" : "arn:aws:cur:us-east-1:${var.billing_account}:definition/*"
+          }
+        }
+      },
+      {
+        "Effect" : "Allow",
+        "Principal" : {
+          "Service" : "billingreports.amazonaws.com"
+        },
+        "Action" : "s3:PutObject",
+        "Resource" : "${aws_s3_bucket.s3_buckets.arn}/*",
+        "Condition" : {
+          "StringEquals" : {
+            "aws:SourceAccount" : var.billing_account,
+            "aws:SourceArn" : "arn:aws:cur:us-east-1:${var.billing_account}:definition/*"
+          }
+        }
+      }
+    ]
   })
 }
 
@@ -201,7 +201,10 @@ resource "aws_s3_bucket_replication_configuration" "cur_bucket_replication_rule"
     destination {
       bucket        = var.destination_bucket
       storage_class = "STANDARD"
-      metrics       = "Enabled"
+
+      metrics {
+        status = "Enabled"
+      }
     }
 
     delete_marker_replication {

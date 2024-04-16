@@ -43,7 +43,7 @@ variable "additional_schema_elements" {
   description = "A list of schema elements."
 
   validation {
-    condition     = contains(var.additional_schema_elements, "RESOURCES") || contains(var.additional_schema_elements, "SPLIT_COST_ALLOCATION_DATA" )
+    condition     = contains(var.additional_schema_elements, "RESOURCES") || contains(var.additional_schema_elements, "SPLIT_COST_ALLOCATION_DATA")
     error_message = "Valid values for additional_schema_elements are (RESOURCES, SPLIT_COST_ALLOCATION_DATA)"
   }
 }
