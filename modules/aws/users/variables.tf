@@ -1,7 +1,7 @@
 variable "user_name" {
   type        = string
   description = "The name of the user to create."
-  
+
   validation {
     condition     = length(var.user_name) >= 1 && length(var.user_name) <= 64
     error_message = "The user name must be less than 64 characters."

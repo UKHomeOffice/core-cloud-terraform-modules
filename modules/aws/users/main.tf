@@ -9,7 +9,7 @@ terraform {
 
 resource "aws_identitystore_user" "identity_center_users" {
   identity_store_id = var.identity_store_id
-  
+
   display_name = "${var.given_name} ${var.family_name}"
   user_name    = var.user_name
 
@@ -20,6 +20,6 @@ resource "aws_identitystore_user" "identity_center_users" {
 
   emails {
     primary = true
-    value = var.email
+    value   = var.email
   }
 }
