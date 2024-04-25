@@ -1,3 +1,3 @@
-output "identitystore_user_id" {
-  value = {"${aws_identitystore_user.identity_center_users.user_name}" = aws_identitystore_user.identity_center_users.id}
+output "identitystore_users" {
+  value = { for k, v in aws_identitystore_user.identity_center_users : v.user_name => v.id }
 }
