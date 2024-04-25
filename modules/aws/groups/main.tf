@@ -8,7 +8,9 @@ terraform {
 }
 
 resource "aws_identitystore_group" "identity_store_groups" {
-  display_name      = var.group_name
-  description       = var.group_description
+  for_each          = var.groups
+
+  display_name      = each.key
+  description       = each.value.group_description
   identity_store_id = var.identity_store_id
 }
