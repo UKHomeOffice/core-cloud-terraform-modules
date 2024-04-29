@@ -8,7 +8,7 @@ terraform {
 }
 
 resource "aws_identitystore_group_membership" "group_membership" {
-  for_each = { for user in var.members : user => user }
+  for_each = var.members
 
   identity_store_id = var.identity_store_id
   group_id          = var.group
