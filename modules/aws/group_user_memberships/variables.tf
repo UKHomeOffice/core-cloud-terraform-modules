@@ -9,8 +9,8 @@ variable "identity_store_id" {
 }
 
 variable "members" {
-  description = "The user identifiers to add to the group."
-  type        = list(string)
+  description = "The map of user names with their identifier to add to the group."
+  type        = map(string)
 }
 
 variable "group" {
