@@ -8,18 +8,19 @@ terraform {
 }
 
 resource "aws_identitystore_user" "identity_center_users" {
+  for_each          = var.users
   identity_store_id = var.identity_store_id
-  
-  display_name = "${var.given_name} ${var.family_name}"
-  user_name    = var.user_name
+
+  display_name = "${each.value.given_name} ${each.value.family_name}"
+  user_name    = each.key
 
   name {
-    given_name  = var.given_name
-    family_name = var.family_name
+    given_name  = each.value.given_name
+    family_name = each.value.family_name
   }
 
   emails {
     primary = true
-    value = var.email
+    value   = each.value.email
   }
 }

@@ -1,22 +1,19 @@
-variable "group_name" {
-  type        = string
-  description = "The name of the group to create."
-  
+variable "groups" {
+  type = map(object({
+    group_description = string
+  }))
+
   validation {
-    condition     = length(var.group_name) >= 1 && length(var.group_name) <= 64
+    condition     = alltrue([for k, v in var.groups : length(k) <= 64])
     error_message = "The group name must be less than 64 characters."
   }
-}
 
-variable "group_description" {
-  type        = string
-  description = "The description of the group to create."
-  
   validation {
-    condition     = length(var.group_description) >= 1 && length(var.group_description) <= 256
+    condition     = alltrue([for k, v in var.groups : length(v.group_description) > 0 && length(v.group_description) <= 256])
     error_message = "The description must be less than 256 characters."
   }
 }
+
 
 variable "identity_store_id" {
   description = "The AWS SSO instance to create the group in."

@@ -8,17 +8,13 @@ variable "identity_store_id" {
   }
 }
 
-variable "users" {
-  description = "The AWS accounts to assign the group to."
-  type = list(string)
+variable "members" {
+  description = "The map of user names with their identifier to add to the group."
+  type        = map(string)
 }
 
-variable "group_name" {
-  description = "The ID of the group to assign the user to."
+variable "group" {
+  description = "The ID of the group to assign the users to."
   type        = string
-
-  validation {
-    condition     = length(var.group_name) >= 1 && length(var.group_name) <= 64
-    error_message = "The group name must be less than 64 characters."
-  }
+  nullable    = false
 }

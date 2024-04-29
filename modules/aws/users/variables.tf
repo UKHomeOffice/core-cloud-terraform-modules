@@ -1,36 +1,25 @@
-variable "user_name" {
-  type        = string
-  description = "The name of the user to create."
-  
+variable "users" {
+  type = map(object({
+    given_name  = string
+    family_name = string
+    email       = string
+  }))
+
   validation {
-    condition     = length(var.user_name) >= 1 && length(var.user_name) <= 64
+    condition     = alltrue([for k, v in var.users : length(k) <= 64])
     error_message = "The user name must be less than 64 characters."
   }
-}
-
-variable "given_name" {
-  type        = string
-  description = "The given name of the user."
 
   validation {
-    condition     = length(var.given_name) >= 1 && length(var.given_name) <= 64
+    condition     = alltrue([for k, v in var.users : length(v.given_name) > 0 && length(v.given_name) <= 64])
     error_message = "The given name must be less than 64 characters."
   }
-}
-
-variable "family_name" {
-  type        = string
-  description = "The family name of the user."
 
   validation {
-    condition     = length(var.family_name) >= 1 && length(var.family_name) <= 64
+    condition     = alltrue([for k, v in var.users : length(v.family_name) > 0 && length(v.family_name) <= 64])
     error_message = "The family name must be less than 64 characters."
   }
-}
 
-variable "email" {
-  type        = string
-  description = "The email address of the user."
 }
 
 variable "identity_store_id" {
