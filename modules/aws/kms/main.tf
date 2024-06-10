@@ -11,9 +11,9 @@ provider "aws" {
   region = "eu-west-2"
 }
 
-resource "aws_kms_key" "example" {
-  description             = var.description
-  enable_key_rotation     = var.rotation_enabled
-  policy                  = var.policy
+resource "aws_kms_key" "default" {
+  description         = var.description
+  enable_key_rotation = var.rotation_enabled
+  policy              = var.policy
 
 }
