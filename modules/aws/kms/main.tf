@@ -13,7 +13,8 @@ provider "aws" {
 
 resource "aws_kms_key" "example" {
   description             = var.description
-  enable_key_rotation     = var.rotation
+  enable_key_rotation     = var.rotation_enabled
+  rotation_period_in_days = var.rotation_period
   deletion_window_in_days = 20
   policy = jsonencode({
     Version = "2012-10-17"
