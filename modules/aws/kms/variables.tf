@@ -14,7 +14,7 @@ variable "rotation_enabled" {
 
   validation {
     condition     = contains(var.rotation_enabled, "true") || contains(var.rotation_enabled, "false")
-    error_message = "Valid values for additional_schema_elements are (true, false)"
+    error_message = "Valid values for rotation_enabled are (true, false)"
   }
 }
 
