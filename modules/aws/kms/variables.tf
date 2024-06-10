@@ -8,7 +8,7 @@ variable "description" {
   }
 }
 
-  variable "rotation_enabled" {
+variable "rotation_enabled" {
     type        = string
     description = "Optional, required to be enabled if rotation_period_in_days is specified) Specifies whether key rotation is enabled. Defaults to false."
 
@@ -18,3 +18,6 @@ variable "description" {
     }
 }
 
+variable "policy" {
+  description = "JSON Encoded policy document for use as KMS Key Policy."
+  }
