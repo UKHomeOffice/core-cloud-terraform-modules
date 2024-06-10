@@ -9,12 +9,8 @@ variable "description" {
 }
 
 variable "rotation_enabled" {
-  type        = string
+  type        = bool
   description = "Optional, required to be enabled if rotation_period_in_days is specified) Specifies whether key rotation is enabled. Defaults to false."
-
-  validation {
-    condition     = contains(var.rotation_enabled, "true") || contains(var.rotation_enabled, "false")
-    error_message = "Valid values for rotation_enabled are (true, false)"
-  }
+  
 }
 
