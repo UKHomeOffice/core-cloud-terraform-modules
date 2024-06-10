@@ -18,6 +18,3 @@ variable "rotation_enabled" {
   }
 }
 
-variable "policy" {
-  description = "JSON Encoded policy document for use as KMS Key Policy."
-}
