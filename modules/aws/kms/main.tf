@@ -12,8 +12,8 @@ provider "aws" {
 }
 
 resource "aws_kms_key" "example" {
-  description             = "An example symmetric encryption KMS key"
-  enable_key_rotation     = true
+  description             = var.description
+  enable_key_rotation     = var.rotation
   deletion_window_in_days = 20
   policy = jsonencode({
     Version = "2012-10-17"
