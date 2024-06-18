@@ -39,10 +39,10 @@ resource "aws_cloudfront_distribution" "default" {
       }
     }
 
-    viewer_protocol_policy = "allow-all"
     min_ttl                = 0
     default_ttl            = 3600
     max_ttl                = 86400
+    viewer_protocol_policy = "redirect-to-https"
   }
 
   price_class = var.cloudfront_price_class
