@@ -1,11 +1,12 @@
-
 resource "aws_s3_bucket" "default" {
   bucket = "cc-static-site-${var.tenant}-${var.service}-${var.env}"
 
   tags_all = {
-    Tenant = var.tenant
-    Service = var.service
-    Env = var.env
+    Tenant       = var.tenant
+    Service      = var.service
+    Env          = var.env
+    CostCenter   = var.cost_center
+    ServiceOwner = var.service_owner
   }
 }
 
