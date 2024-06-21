@@ -24,11 +24,12 @@ resource "aws_iam_role" "tenant" {
   })
 
   tags = {
-    Tenant     = var.tenant
-    Service    = var.service
-    Env        = var.env
-    CostCenter = var.cost_center
-    Owner      = var.owner
+    Tenant       = var.tenant
+    Service      = var.service
+    Env          = var.env
+    CostCenter   = var.cost_center
+    ServiceOwner = var.owner
+    Repository   = var.repository
   }
 }
 

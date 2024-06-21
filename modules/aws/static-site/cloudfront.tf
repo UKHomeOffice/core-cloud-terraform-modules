@@ -2,7 +2,7 @@ resource "aws_cloudfront_origin_access_identity" "default" {
   comment = "Origin access identity for ${var.tenant} ${var.service} ${var.env}"
 }
 
-
+#tfsec:ignore:aws-cloudfront-enable-logging
 resource "aws_cloudfront_distribution" "default" {
   origin {
     domain_name = aws_s3_bucket.default.bucket_regional_domain_name
@@ -27,8 +27,8 @@ resource "aws_cloudfront_distribution" "default" {
   aliases = var.cloudfront_aliases
 
   default_cache_behavior {
-    allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
-    cached_methods   = ["GET", "HEAD"]
+    allowed_methods = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
+    cached_methods = ["GET", "HEAD"]
     target_origin_id = aws_s3_bucket.default.id
 
     forwarded_values {
@@ -57,7 +57,10 @@ resource "aws_cloudfront_distribution" "default" {
 
   viewer_certificate {
     cloudfront_default_certificate = true
+    minimum_protocol_version       = "TLSv1.2_2021"
   }
+
+  web_acl_id = aws_wafv2_web_acl.default.id
 }
 
 
