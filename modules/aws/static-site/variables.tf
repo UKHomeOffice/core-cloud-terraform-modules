@@ -1,36 +1,53 @@
+# Required tags
+
 variable "tenant" {
-  default = ""
+  description = "The name of the tenant"
 }
+
 variable "service" {
-  default = ""
+  default = "The name of the service"
 }
+
 variable "env" {
-  default = ""
+  validation {
+    condition = contains(["dev", "test", "prod"], var.env)
+    error_message = "Should be 'dev', 'test' or 'prod'"
+  }
 }
 
 variable "cost_center" {
-  default = ""
+  description = "The name or identifier for the cost center"
 }
 
 variable "service_owner" {
-  default = ""
+  description = "Name or contact of the service owner"
 }
 
+variable "repository" {
+  description = "The repository containing the code for the static site"
+}
+
+# S3
+
 variable "index_document" {
-  default = "index.html"
+  default     = "index.html"
+  description = "The document that will be served by default"
 }
 
 variable "error_document" {
-  default = "error.html"
+  default     = "error.html"
+  description = "The document that will be served in the event of an error."
 }
+
+# CloudFront
+
 variable "cloudfront_aliases" {
   type = list(string)
   default = []
+  description = "CloudFront aliases to apply using custom DNS record"
 }
 
 variable "cloudfront_price_class" {
-  default = "PriceClass_100"
-}
-
-variable "tenant_github_repo" {
+  default     = "PriceClass_100"
+  description = "Price class for the CloudFront distribution"
 }
