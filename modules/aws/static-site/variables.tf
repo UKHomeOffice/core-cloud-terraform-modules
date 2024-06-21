@@ -9,6 +9,7 @@ variable "service" {
 }
 
 variable "env" {
+  description = "The name of the environment"
   validation {
     condition = contains(["dev", "test", "prod"], var.env)
     error_message = "Should be 'dev', 'test' or 'prod'"
@@ -16,11 +17,11 @@ variable "env" {
 }
 
 variable "cost_center" {
-  description = "The name or identifier for the cost center"
+  description = "The name of the cost center"
 }
 
 variable "owner" {
-  description = "Name or contact of the service owner"
+  description = "Contact for the service owner"
 }
 
 variable "repository" {
