@@ -27,8 +27,8 @@ resource "aws_cloudfront_distribution" "default" {
   aliases = var.cloudfront_aliases
 
   default_cache_behavior {
-    allowed_methods = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
-    cached_methods = ["GET", "HEAD"]
+    allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
+    cached_methods   = ["GET", "HEAD"]
     target_origin_id = aws_s3_bucket.default.id
 
     forwarded_values {
@@ -48,11 +48,11 @@ resource "aws_cloudfront_distribution" "default" {
   price_class = var.cloudfront_price_class
 
   tags = {
-    Tenant       = var.tenant
-    Service      = var.service
-    Env          = var.env
-    CostCenter   = var.cost_center
-    ServiceOwner = var.service_owner
+    Tenant     = var.tenant
+    Service    = var.service
+    Env        = var.env
+    CostCenter = var.cost_center
+    Owner      = var.owner
   }
 
   viewer_certificate {

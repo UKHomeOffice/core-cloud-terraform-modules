@@ -12,7 +12,7 @@ resource "aws_iam_role" "tenant" {
         }
         Condition = {
           StringLike = {
-            "token.actions.githubusercontent.com:sub:" : var.tenant_github_repo
+            "token.actions.githubusercontent.com:sub:" : var.repository
             "sts:RoleSessionName" : "GitHubActions"
           }
           StringEquals = {
@@ -24,11 +24,11 @@ resource "aws_iam_role" "tenant" {
   })
 
   tags = {
-    Tenant       = var.tenant
-    Service      = var.service
-    Env          = var.env
-    CostCenter   = var.cost_center
-    ServiceOwner = var.service_owner
+    Tenant     = var.tenant
+    Service    = var.service
+    Env        = var.env
+    CostCenter = var.cost_center
+    Owner      = var.owner
   }
 }
 
