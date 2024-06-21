@@ -5,7 +5,7 @@ variable "tenant" {
 }
 
 variable "service" {
-  default = "The name of the service"
+  description = "The name of the service"
 }
 
 variable "env" {
@@ -19,7 +19,7 @@ variable "cost_center" {
   description = "The name or identifier for the cost center"
 }
 
-variable "service_owner" {
+variable "owner" {
   description = "Name or contact of the service owner"
 }
 
