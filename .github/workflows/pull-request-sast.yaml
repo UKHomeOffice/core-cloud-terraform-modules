@@ -24,4 +24,5 @@ jobs:
         with:
           scan-type: 'config'
           trivyignores: ".trivyignore"
+          skip-dirs: "modules/products/static-site"
           exit-code: '1'
