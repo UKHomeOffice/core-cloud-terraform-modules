@@ -1,6 +1,6 @@
 resource "aws_wafv2_web_acl" "default" {
-  name        = "cc-static-site-${var.product}-${var.component}"
-  description = "Static Site WAF rule for ${var.product} ${var.component}"
+  name        = "cc-static-site-${var.tags.product}-${var.tags.component}"
+  description = "Static Site WAF rule for ${var.tags.product} ${var.tags.component}"
   scope       = "REGIONAL"
 
   tags = local.common_tags
@@ -11,7 +11,7 @@ resource "aws_wafv2_web_acl" "default" {
 
   visibility_config {
     cloudwatch_metrics_enabled = false
-    metric_name                = "static-site-${var.product}-${var.component}"
+    metric_name                = "static-site-${var.tags.product}-${var.tags.component}"
     sampled_requests_enabled   = false
   }
 

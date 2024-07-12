@@ -1,6 +1,6 @@
 resource "aws_cloudfront_origin_access_control" "static_site_identity" {
-  name                              = "cc-static-site-${var.product}-${var.component}"
-  description                       = "Origin access control for ${var.product} ${var.component}"
+  name                              = "cc-static-site-${var.tags.product}-${var.tags.component}"
+  description                       = "Origin access control for ${var.tags.product} ${var.tags.component}"
   origin_access_control_origin_type = "s3"
   signing_behavior                  = "always"
   signing_protocol                  = "sigv4"
@@ -14,7 +14,7 @@ resource "aws_cloudfront_distribution" "static_site_distribution" {
 
   enabled             = true
   is_ipv6_enabled     = true
-  comment             = "Cloudfront distribution for ${var.product} ${var.component}"
+  comment             = "Cloudfront distribution for ${var.tags.product} ${var.tags.component}"
   default_root_object = "index.html"
 
   # logging_config {
@@ -23,7 +23,7 @@ resource "aws_cloudfront_distribution" "static_site_distribution" {
   #   prefix          = "myprefix"
   # }
 
-  aliases = var.cloudfront_aliases
+  aliases = var.cloud_front_vars.cloudfront_aliases
 
   default_cache_behavior {
     allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
@@ -44,7 +44,7 @@ resource "aws_cloudfront_distribution" "static_site_distribution" {
     max_ttl                = 86400
   }
 
-  price_class = var.cloudfront_price_class
+  price_class = var.cloud_front_vars.cloudfront_price_class
 
   tags = local.common_tags
 

@@ -1,5 +1,5 @@
 resource "aws_iam_role" "static_site_actions_push" {
-  name = "cc-static-site-${var.product}-${var.component}"
+  name = "cc-static-site-${var.tags.product}-${var.tags.component}"
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
@@ -12,7 +12,7 @@ resource "aws_iam_role" "static_site_actions_push" {
         }
         Condition = {
           StringLike = {
-            "token.actions.githubusercontent.com:sub:" : var.repository
+            "token.actions.githubusercontent.com:sub:" : var.tags.repository
             "sts:RoleSessionName" : "GitHubActions"
           }
           StringEquals = {
