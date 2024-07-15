@@ -17,6 +17,7 @@ variable "apply_to_ous_or_accounts" {
 }
 
 variable "services_overrides" {
+{  
   "services": {
     "@@operators_allowed_for_child_policies": ["@@none"],
     "default": {
@@ -28,3 +29,5 @@ variable "services_overrides" {
     }
   }
 }
+}
+
