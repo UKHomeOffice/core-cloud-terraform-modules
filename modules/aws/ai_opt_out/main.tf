@@ -2,7 +2,7 @@ resource "aws_organizations_policy" "ai_services_opt_out" {
   name        = var.policy_name
   description = var.policy_description
   type        = "AISERVICES_OPT_OUT_POLICY"
-  content     = jsonencode(var.services_overrides)
+  content     = var.services_overrides
 }
 
 
