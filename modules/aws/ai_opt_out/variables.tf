@@ -17,24 +17,14 @@ variable "apply_to_ous_or_accounts" {
 }
 
 variable "services_overrides" {
-  description = "Overrides for AI services opt-out policies"
-  default = {
-    "services" : {
-      "services": {
-        "@@operators_allowed_for_child_policies": [
-          "@@none"
-        ],
-        "default": {
-          "@@operators_allowed_for_child_policies": [
-            "@@none"
-          ],
-          "opt_out_policy": {
-            "@@assign": "optOut",
-            "@@operators_allowed_for_child_policies": [
-              "@@none"
-            ]
-          }
-        }
+  "services": {
+    "@@operators_allowed_for_child_policies": ["@@none"],
+    "default": {
+      "@@operators_allowed_for_child_policies": ["@@none"],
+      "opt_out_policy": {
+          "@@operators_allowed_for_child_policies": ["@@none"],
+          "@@assign": "optOut"
       }
-    } }
+    }
+  }
 }
