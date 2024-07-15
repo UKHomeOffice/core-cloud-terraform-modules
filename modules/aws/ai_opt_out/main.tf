@@ -2,7 +2,25 @@ resource "aws_organizations_policy" "ai_services_opt_out" {
   name        = var.policy_name
   description = var.policy_description
   type        = "AISERVICES_OPT_OUT_POLICY"
-  content     = var.services_overrides
+  content     = jsonencode({
+      services = {
+      "@@operators_allowed_for_child_policies" = [
+        "@@none"
+      ]
+      default = {
+        "@@operators_allowed_for_child_policies" = [
+          "@@none"
+        ]
+        opt_out_policy = {
+          "@@assign" = "optOut"
+          "@@operators_allowed_for_child_policies" = [
+            "@@none"
+          ]
+        }
+      }
+    }
+   }
+  )
 }
 
 
