@@ -43,7 +43,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "static_site_encry
 }
 
 
-data "aws_iam_policy_document" "static_site_policy_document" {
+data "aws_iam_policy_document" "static_site_iam_storage_policy_document" {
   statement {
     sid    = "PublicReadGetObject"
     effect = "Allow"
@@ -62,6 +62,6 @@ data "aws_iam_policy_document" "static_site_policy_document" {
 
 resource "aws_s3_bucket_policy" "static_site_policy" {
   bucket     = aws_s3_bucket.static_site.id
-  policy     = data.aws_iam_policy_document.static_site_policy_document.json
+  policy     = data.aws_iam_policy_document.static_site_iam_storage_policy_document.json
   depends_on = [aws_s3_bucket_public_access_block.static_site_acl]
 }
