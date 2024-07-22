@@ -44,6 +44,12 @@ resource "aws_cloudfront_distribution" "static_site_distribution" {
     max_ttl                = 86400
   }
 
+  restrictions {
+    geo_restriction {
+      restriction_type = "none"
+    }
+  }
+
   price_class = var.cloud_front_vars.cloudfront_price_class
 
   tags = local.common_tags

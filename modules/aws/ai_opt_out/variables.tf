@@ -15,3 +15,4 @@ variable "apply_to_ous_or_accounts" {
   description = "A list of AWS Organization OU IDs or AWS Account IDs that should have the Policies applied (can be empty)."
   default     = []
 }
+
