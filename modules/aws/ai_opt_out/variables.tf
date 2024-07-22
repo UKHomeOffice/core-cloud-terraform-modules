@@ -16,15 +16,3 @@ variable "apply_to_ous_or_accounts" {
   default     = []
 }
 
-variable "services_overrides" {
-  "services": {
-    "@@operators_allowed_for_child_policies": ["@@none"],
-    "default": {
-      "@@operators_allowed_for_child_policies": ["@@none"],
-      "opt_out_policy": {
-          "@@operators_allowed_for_child_policies": ["@@none"],
-          "@@assign": "optOut"
-      }
-    }
-  }
-}
