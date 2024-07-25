@@ -46,11 +46,11 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "static_site_encry
 
 data "aws_iam_policy_document" "static_site_iam_storage_policy_document" {
   statement {
-    sid    = "PublicReadGetObject"
+    sid    = "AllowCloudFrontServicePrincipalReadOnly"
     effect = "Allow"
     principals {
-      type        = "*"
-      identifiers = ["*"]
+      type        = "Service"
+      identifiers = ["cloudfront.amazonaws.com"]
     }
     actions = [
       "s3:GetObject"
@@ -58,6 +58,11 @@ data "aws_iam_policy_document" "static_site_iam_storage_policy_document" {
     resources = [
       "arn:aws:s3:::${aws_s3_bucket.static_site.id}/*"
     ]
+    condition {
+      test     = "StringEquals"
+      variable = "aws:SourceArn"
+      values   = [resource.static_site_distribution.arn]
+    }
   }
 }
 
