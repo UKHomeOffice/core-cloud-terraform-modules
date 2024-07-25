@@ -7,3 +7,8 @@ locals {
     COMPONENT   = var.tags.component
   }
 }
+
+provider "aws" {
+  region = "us-east-1"
+  alias  = "us-east-1"
+}
