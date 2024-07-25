@@ -1,3 +1,9 @@
+data "aws_caller_identity" "current" {}
+
+locals {
+  account_id = data.aws_caller_identity.current.account_id
+}
+
 resource "aws_iam_role" "static_site_actions_push" {
   name = "cc-static-site-${var.tags.product}-${var.tags.component}"
   assume_role_policy = jsonencode({
@@ -8,7 +14,7 @@ resource "aws_iam_role" "static_site_actions_push" {
         Effect = "Allow"
         Sid    = ""
         Principal = {
-          Federated : "*"
+          Federated : "arn:aws:iam::${local.account_id}:oidc-provider/token.actions.githubusercontent.com"
         }
         Condition = {
           StringLike = {
