@@ -61,7 +61,7 @@ data "aws_iam_policy_document" "static_site_iam_storage_policy_document" {
     condition {
       test     = "StringEquals"
       variable = "aws:SourceArn"
-      values   = [resource.static_site_distribution.arn]
+      values   = [aws_cloudfront_distribution.static_site_distribution.arn]
     }
   }
 }
