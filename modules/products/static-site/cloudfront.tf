@@ -58,5 +58,5 @@ resource "aws_cloudfront_distribution" "static_site_distribution" {
     cloudfront_default_certificate = true
     minimum_protocol_version       = "TLSv1.2_2021"
   }
-  web_acl_id = aws_wafv2_web_acl.default.id
+  web_acl_id = aws_wafv2_web_acl.default.arn
 }
