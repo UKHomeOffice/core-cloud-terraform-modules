@@ -7,23 +7,24 @@ locals {
 resource "aws_iam_role" "static_site_actions_push" {
   name = "cc-static-site-${var.tags.product}-${var.tags.component}"
   assume_role_policy = jsonencode({
-    Version = "2012-10-17",
+    Version = "2012-10-17"
     Statement = [
       {
-        Action = "sts:AssumeRoleWithWebIdentity",
-        Effect = "Allow",
-        Sid    = "",
+        Action = "sts:AssumeRoleWithWebIdentity"
+        Effect = "Allow"
+        Sid    = ""
         Principal = {
-          Federated = "arn:aws:iam::${local.account_id}:oidc-provider/token.actions.githubusercontent.com"
-        },
+          Federated : "arn:aws:iam::${local.account_id}:oidc-provider/token.actions.githubusercontent.com"
+        }
         Condition = {
           StringLike = {
-            "token.actions.githubusercontent.com:sub" : var.tags.repository
-          },
-          StringEquals = {
-            "token.actions.githubusercontent.com:aud" : "sts.amazonaws.com"
+            "token.actions.githubusercontent.com:sub:" : var.tags.repository
+            "sts:RoleSessionName" : "GitHubActions"
           }
-        }
+          StringEquals = {
+            "token.actions.githubusercontent.com:aud:" : "sts.amazonaws.com"
+          }
+        },
       }
     ]
   })
