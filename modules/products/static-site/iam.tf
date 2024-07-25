@@ -18,11 +18,11 @@ resource "aws_iam_role" "static_site_actions_push" {
         }
         Condition = {
           StringLike = {
-            "token.actions.githubusercontent.com:sub:" : var.tags.repository
+            "token.actions.githubusercontent.com:sub" : var.tags.repository
             "sts:RoleSessionName" : "GitHubActions"
           }
           StringEquals = {
-            "token.actions.githubusercontent.com:aud:" : "sts.amazonaws.com"
+            "token.actions.githubusercontent.com:aud" : "sts.amazonaws.com"
           }
         },
       }
