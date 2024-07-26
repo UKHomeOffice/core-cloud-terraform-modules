@@ -9,3 +9,7 @@ variable "cloud_front_vars" {
 variable "aws_region" {
   type = string
 }
+
+variable "domain" {
+  type = string
+}
