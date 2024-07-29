@@ -58,6 +58,7 @@ resource "aws_cloudfront_distribution" "static_site_distribution" {
     acm_certificate_arn            = var.cloud_front_vars.cloudfront_cert
     minimum_protocol_version       = "TLSv1.2_2021"
     cloudfront_default_certificate = "false"
+    ssl_support_method             = "sni-only"
   }
   web_acl_id = aws_wafv2_web_acl.default.arn
 }
