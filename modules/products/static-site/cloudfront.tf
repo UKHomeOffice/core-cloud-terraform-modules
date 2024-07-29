@@ -55,7 +55,7 @@ resource "aws_cloudfront_distribution" "static_site_distribution" {
   tags = local.common_tags
 
   viewer_certificate {
-    acm_certificate_arn      = cloud_front_vars.cloudfront_cert
+    acm_certificate_arn      = var.cloud_front_vars.cloudfront_cert
     minimum_protocol_version = "TLSv1.2_2021"
   }
   web_acl_id = aws_wafv2_web_acl.default.arn
