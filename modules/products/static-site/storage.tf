@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "static_site" {
-  bucket = var.domain
+  bucket = "cc-static-site-${var.tags.product}-${var.tags.component}"
 
   tags = local.common_tags
 }
