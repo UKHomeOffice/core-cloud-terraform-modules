@@ -1,19 +1,7 @@
 resource "aws_s3_bucket" "static_site" {
-  bucket = "cc-static-site-${var.tags.product}-${var.tags.component}"
+  bucket = "cc-static-site-${var.tenant_vars.product}-${var.tenant_vars.component}"
 
   tags = local.common_tags
-}
-
-resource "aws_s3_bucket_website_configuration" "static_site_config" {
-  bucket = aws_s3_bucket.static_site.id
-
-  index_document {
-    suffix = "index.html"
-  }
-
-  error_document {
-    key = "error.html"
-  }
 }
 
 resource "aws_s3_bucket_public_access_block" "static_site_acl" {

@@ -1,6 +1,6 @@
 resource "aws_cloudfront_origin_access_control" "static_site_identity" {
-  name                              = "cc-static-site-${var.tags.product}-${var.tags.component}"
-  description                       = "Origin access control for ${var.tags.product} ${var.tags.component}"
+  name                              = "cc-static-site-${var.tenant_vars.product}-${var.tenant_vars.component}"
+  description                       = "Origin access control for ${var.tenant_vars.product} ${var.tenant_vars.component}"
   origin_access_control_origin_type = "s3"
   signing_behavior                  = "always"
   signing_protocol                  = "sigv4"
@@ -8,13 +8,14 @@ resource "aws_cloudfront_origin_access_control" "static_site_identity" {
 
 resource "aws_cloudfront_distribution" "static_site_distribution" {
   origin {
-    domain_name = aws_s3_bucket.static_site.bucket_regional_domain_name
-    origin_id   = aws_s3_bucket.static_site.id
+    domain_name              = aws_s3_bucket.static_site.bucket_regional_domain_name
+    origin_id                = aws_s3_bucket.static_site.id
+    origin_access_control_id = aws_cloudfront_origin_access_control.static_site_identity.id
   }
 
   enabled             = true
   is_ipv6_enabled     = true
-  comment             = "Cloudfront distribution for ${var.tags.product} ${var.tags.component}"
+  comment             = "Cloudfront distribution for ${var.tenant_vars.product} ${var.tenant_vars.component}"
   default_root_object = "index.html"
 
   # logging_config {
@@ -23,7 +24,7 @@ resource "aws_cloudfront_distribution" "static_site_distribution" {
   #   prefix          = "myprefix"
   # }
 
-  aliases = var.cloud_front_vars.cloudfront_aliases
+  aliases = var.tenant_vars.cloudfront_aliases
 
   default_cache_behavior {
     allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
@@ -50,13 +51,15 @@ resource "aws_cloudfront_distribution" "static_site_distribution" {
     }
   }
 
-  price_class = var.cloud_front_vars.cloudfront_price_class
+  price_class = var.cloud_front_default_vars.cloudfront_price_class
 
   tags = local.common_tags
 
   viewer_certificate {
-    cloudfront_default_certificate = true
+    acm_certificate_arn            = var.tenant_vars.cloudfront_cert
     minimum_protocol_version       = "TLSv1.2_2021"
+    cloudfront_default_certificate = "false"
+    ssl_support_method             = "sni-only"
   }
-  web_acl_id = aws_wafv2_web_acl.default.id
+  web_acl_id = aws_wafv2_web_acl.default.arn
 }
