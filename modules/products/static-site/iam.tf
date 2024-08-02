@@ -18,7 +18,7 @@ resource "aws_iam_role" "static_site_actions_push" {
         }
         Condition = {
           StringLike = {
-            "token.actions.githubusercontent.com:sub" : var.tenant_vars.repository
+            "token.actions.githubusercontent.com:sub" : "repo:${var.tenant_vars.repository}:*"
             "sts:RoleSessionName" : "GitHubActions"
           }
           StringEquals = {
@@ -46,13 +46,53 @@ data "aws_iam_policy_document" "static_site_policy_document" {
     sid = "WriteToBucket"
 
     actions = [
-      "s3:PutObject",
+      "s3:AbortMultipartUpload",
       "s3:DeleteObject",
+      "s3:DeleteObjectTagging",
+      "s3:DeleteObjectVersion",
+      "s3:DeleteObjectVersionTagging",
+      "s3:GetBucketAcl",
+      "s3:GetBucketLocation",
+      "s3:GetObject",
+      "s3:GetObjectAcl",
+      "s3:GetObjectTagging",
+      "s3:GetObjectVersion",
+      "s3:GetObjectVersionAcl",
+      "s3:GetObjectVersionTagging",
+      "s3:GetBucketVersioning",
+      "s3:ListBucket",
+      "s3:ListBucketMultipartUploads",
+      "s3:ListBucketVersions",
+      "s3:ListMultipartUploadParts",
+      "s3:PutObjectAcl",
+      "s3:PutObject",
+      "s3:PutObjectTagging",
+      "s3:PutObjectVersionAcl",
+      "s3:PutObjectVersionTagging",
     ]
 
     resources = [
       "arn:aws:s3:::${aws_s3_bucket.static_site.id}",
       "arn:aws:s3:::${aws_s3_bucket.static_site.id}/*"
+    ]
+  }
+  statement {
+    sid = "KMS"
+
+    actions = [
+      "kms:Decrypt",
+      "kms:DescribeKey",
+      "kms:Encrypt",
+      "kms:GenerateDataKey",
+      "kms:GenerateDataKeyWithoutPlaintext",
+      "kms:GetKeyPolicy",
+      "kms:GetKeyRotationStatus",
+      "kms:ReEncryptFrom",
+      "kms:ReEncryptTo"
+    ]
+
+    resources = [
+      aws_kms_key.static_site_kms.arn,
     ]
   }
 }
