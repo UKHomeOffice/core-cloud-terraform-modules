@@ -43,6 +43,11 @@ resource "aws_cloudfront_distribution" "static_site_distribution" {
     min_ttl                = 0
     default_ttl            = 0
     max_ttl                = 86400
+
+    function_association {
+      event_type   = "viewer-request"
+      function_arn   = aws_cloudfront_function.rewritedefaultindexrequest.arn
+    }
   }
 
   restrictions {
@@ -62,4 +67,11 @@ resource "aws_cloudfront_distribution" "static_site_distribution" {
     ssl_support_method             = "sni-only"
   }
   web_acl_id = aws_wafv2_web_acl.default.arn
+}
+
+resource "aws_cloudfront_function" "rewritedefaultindexrequest" {
+  name    = "ReWriteDefaultIndexRequest"
+  runtime = "cloudfront-js-2.0"
+  publish = true
+  code    = file("${path.module}/cloudfront_functions/rewriteindex.js")
 }
