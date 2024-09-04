@@ -53,7 +53,7 @@ resource "aws_cloudfront_distribution" "static_site_distribution" {
 
   custom_error_response {
     error_code          = 404
-    response_page_path  = "/404.htm" # Path to your custom error page
+    response_page_path  = "/404.html" # Path to your custom error page
     response_code       = 404
     error_caching_min_ttl = 10 # Cache TTL in seconds
     }
