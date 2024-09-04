@@ -57,6 +57,7 @@ resource "aws_cloudfront_distribution" "static_site_distribution" {
     response_code       = 404
     error_caching_min_ttl = 10 # Cache TTL in seconds
     }
+  
 
   restrictions {
     geo_restriction {
