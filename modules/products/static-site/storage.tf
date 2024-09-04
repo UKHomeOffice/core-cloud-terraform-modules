@@ -41,7 +41,8 @@ data "aws_iam_policy_document" "static_site_iam_storage_policy_document" {
       identifiers = ["cloudfront.amazonaws.com"]
     }
     actions = [
-      "s3:GetObject"
+      "s3:GetObject",
+      "s3:ListBucket"
     ]
     resources = [
       "arn:aws:s3:::${aws_s3_bucket.static_site.id}/*"
