@@ -48,6 +48,14 @@ resource "aws_cloudfront_distribution" "static_site_distribution" {
       event_type   = "viewer-request"
       function_arn   = aws_cloudfront_function.rewritedefaultindexrequest.arn
     }
+
+  custom_error_response {
+    error_code          = 404
+    response_page_path  = "/404.html" # Path to your custom error page
+    response_code       = 404
+    error_caching_min_ttl = 10 # Cache TTL in seconds
+      }
+
   }
 
   restrictions {
