@@ -53,6 +53,12 @@ data "aws_iam_policy_document" "static_site_iam_storage_policy_document" {
     }
   }
   statement {
+    sid    = "AllowCloudFrontServicePrincipalReadOnly"
+    effect = "Allow"
+    principals {
+      type        = "Service"
+      identifiers = ["cloudfront.amazonaws.com"]
+    }
     actions = [
       "s3:ListBucket"
     ]
