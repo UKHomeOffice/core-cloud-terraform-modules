@@ -53,7 +53,7 @@ data "aws_iam_policy_document" "static_site_iam_storage_policy_document" {
     }
   }
   statement {
-    sid    = "AllowCloudFrontServicePrincipalReadOnly"
+    sid    = "AllowCloudFrontServicePrincipalListBucket"
     effect = "Allow"
     principals {
       type        = "Service"
