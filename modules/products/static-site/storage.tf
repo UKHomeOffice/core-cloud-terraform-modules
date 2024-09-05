@@ -41,11 +41,23 @@ data "aws_iam_policy_document" "static_site_iam_storage_policy_document" {
       identifiers = ["cloudfront.amazonaws.com"]
     }
     actions = [
-      "s3:GetObject",
-      "s3:ListBucket"
+      "s3:GetObject"
     ]
     resources = [
       "arn:aws:s3:::${aws_s3_bucket.static_site.id}/*"
+    ]
+    condition {
+      test     = "StringEquals"
+      variable = "aws:SourceArn"
+      values   = [aws_cloudfront_distribution.static_site_distribution.arn]
+    }
+  }
+  statement {
+    actions = [
+      "s3:ListBucket"
+    ]
+    resources = [
+      "arn:aws:s3:::${aws_s3_bucket.static_site.id}"
     ]
     condition {
       test     = "StringEquals"
