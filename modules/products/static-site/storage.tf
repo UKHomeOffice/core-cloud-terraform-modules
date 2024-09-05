@@ -57,7 +57,7 @@ data "aws_iam_policy_document" "static_site_iam_storage_policy_document" {
       "s3:ListBucket"
     ]
     resources = [
-      "arn:aws:s3:::${aws_s3_bucket.static_site.id}/*"
+      "arn:aws:s3:::${aws_s3_bucket.static_site.id}"
     ]
     condition {
       test     = "StringEquals"
