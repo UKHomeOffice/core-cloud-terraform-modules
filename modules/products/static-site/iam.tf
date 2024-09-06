@@ -95,4 +95,15 @@ data "aws_iam_policy_document" "static_site_policy_document" {
       aws_kms_key.static_site_kms.arn,
     ]
   }
+  statement {
+    sid = "Cloudfront"
+
+    actions = [
+      "cloudfront:CreateInvalidation"
+    ]
+
+    resources = [
+      aws_cloudfront_distribution.static_site_distribution.arn,
+    ]
+  }
 }
