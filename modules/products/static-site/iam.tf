@@ -92,7 +92,7 @@ data "aws_iam_policy_document" "static_site_policy_document" {
     ]
 
     resources = [
-      aws_kms_key.static_site_kms_test.arn,
+      aws_kms_key.static_site_kms.arn,
     ]
   }
   statement {
