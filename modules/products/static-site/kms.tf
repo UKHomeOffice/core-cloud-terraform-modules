@@ -10,6 +10,15 @@ key_id = aws_kms_key.static_site_kms.id
     "Id": "key-default-1",
     "Statement": [
         {
+            "Sid": "Enable IAM User Permissions",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "arn:aws:iam::${local.account_id}:root"
+            },
+            "Action": "kms:*",
+            "Resource": "*"
+        },
+        {
             "Sid": "Allow use of the key",
             "Effect": "Allow",
             "Principal": {
