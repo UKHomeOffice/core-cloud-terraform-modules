@@ -10,7 +10,6 @@ resource "aws_kms_key_policy" "static_site_kms_policy" {
     Id      = "static_site_kms_policy"
     Statement = [
       {
-        Sid = "CloudFrontServiceKmsPolicy"
         Action = [
           "kms:Decrypt",
           "kms:Encrypt",
@@ -22,12 +21,13 @@ resource "aws_kms_key_policy" "static_site_kms_policy" {
           identifiers = ["cloudfront.amazonaws.com"]
         }
         Resource = ["*"]
+        Sid = "CloudFrontServiceKmsPolicy"
         condition = {
           test     = "StringEquals"
           variable = "aws:SourceArn"
           values   = [aws_cloudfront_distribution.static_site_distribution.arn]
         }
-      }
+      },
     ]  
    })
 }
