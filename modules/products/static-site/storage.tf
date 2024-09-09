@@ -24,7 +24,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "static_site_encry
   bucket = aws_s3_bucket.static_site.id
   rule {
     apply_server_side_encryption_by_default {
-      kms_master_key_id = aws_kms_key.static_site_kms.arn
+      kms_master_key_id = aws_kms_key.static_site_kms_test.arn
       sse_algorithm     = "aws:kms"
     }
     bucket_key_enabled = true
