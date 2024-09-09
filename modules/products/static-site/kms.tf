@@ -10,15 +10,6 @@ resource "aws_kms_key_policy" "static_site_kms_policy" {
     Id      = "static_site_kms_policy"
     Statement = [
       {
-        Sid    = "EnableIAMUserPermissions"
-        Action = "kms:*"
-        Effect = "Allow"
-        Principal = {
-          AWS = "arn:aws:iam::${local.account_id}:root"
-        }
-        Resource = ["*"]
-      },
-      {
         Sid = "CloudFrontServiceKmsPolicy"
         Action = [
           "kms:Decrypt",
