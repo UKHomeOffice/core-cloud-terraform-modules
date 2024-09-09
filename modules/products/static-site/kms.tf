@@ -43,3 +43,4 @@ resource "aws_kms_key_policy" "static_site_kms_policy" {
     ]    
   })
 }
+
