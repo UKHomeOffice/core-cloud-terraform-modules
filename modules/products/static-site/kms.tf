@@ -15,13 +15,18 @@ key_id = aws_kms_key.static_site_kms.id
           "kms:Decrypt",
           "kms:Encrypt",
           "kms:GenerateDataKey*"
-        ]
+        ],
         Effect = "Allow"
         Principal = {
           type        = "Service"
           identifiers = ["cloudfront.amazonaws.com"]
         },
         Resource = ["*"]
+       condition = {
+          test     = "StringEquals"
+          variable = "aws:SourceArn"
+          values   = [aws_cloudfront_distribution.static_site_distribution.arn]
+        }
       },
     ]  
    })
