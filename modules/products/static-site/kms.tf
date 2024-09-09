@@ -6,29 +6,37 @@ resource "aws_kms_key" "static_site_kms" {
 resource "aws_kms_key_policy" "static_site_kms_policy" {
 key_id = aws_kms_key.static_site_kms.id
   policy = jsonencode({
-    Version = "2012-10-17"
-    Id      = "static_site_kms_policy"
-    Statement = [
-      {
-        Sid = "CloudFrontServiceKmsPolicy"
-        Action = [
-          "kms:Decrypt",
-          "kms:Encrypt",
-          "kms:GenerateDataKey*"
-        ],
-        Effect = "Allow"
-        Principal = {
-          type        = "Service"
-          identifiers = ["cloudfront.amazonaws.com"]
+    "Version": "2012-10-17",
+    "Id": "key-default-1",
+    "Statement": [
+        {
+            "Sid": "Enable IAM User Permissions",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "arn:aws:iam::${local.account_id}:root"
+            },
+            "Action": "kms:*",
+            "Resource": "*"
         },
-        Resource = ["*"]
-       condition = {
-          test     = "StringEquals"
-          variable = "aws:SourceArn"
-          values   = [aws_cloudfront_distribution.static_site_distribution.arn]
+        {
+            "Sid": "Allow use of the key",
+            "Effect": "Allow",
+            "Principal": {
+                "Service": "cloudfront.amazonaws.com"
+            },
+            "Action": [
+                "kms:Decrypt",
+                "kms:Encrypt",
+                "kms:GenerateDataKey*"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringEquals": {
+                    "aws:SourceArn": "aws_cloudfront_distribution.static_site_distribution.arn"
+                }
+            }
         }
-      },
-    ]  
-   })
+    ]
+})
 }
 
