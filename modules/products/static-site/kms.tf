@@ -39,3 +39,4 @@ key_id = aws_kms_key.static_site_kms.id
     ]
 })
 }
+
