@@ -42,7 +42,7 @@ key_id = aws_kms_key.static_site_kms.id
 }
 
 resource "aws_kms_alias" "static_site_kms_alias" {
-  name          = "alias/accelerator/kms/static_site/key"
+  name          = "alias/accelerator/kms/static_site/aws_s3_bucket.static_site.id/key"
   target_key_id = aws_kms_key.static_site_kms.key_id
 }
 
