@@ -38,6 +38,7 @@ resource "aws_iam_role_policy_attachment" "static_site_policy_attachment" {
 }
 
 resource "aws_iam_policy" "static_site_policy" {
+  name   = "static-site-iam-policy"
   policy = data.aws_iam_policy_document.static_site_policy_document.json
 }
 
