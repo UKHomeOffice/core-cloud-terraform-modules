@@ -33,7 +33,7 @@ resource "aws_kms_key_policy" "static_site_kms_policy" {
         "Resource" : "*",
         "Condition" : {
           "StringEquals" : {
-            "aws:SourceArn" : "aws_cloudfront_distribution.static_site_distribution.arn"
+            "aws:SourceArn" : aws_cloudfront_distribution.static_site_distribution.arn
           }
         }
       }
