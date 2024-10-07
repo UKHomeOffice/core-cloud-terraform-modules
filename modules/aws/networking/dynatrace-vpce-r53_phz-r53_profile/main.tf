@@ -44,8 +44,8 @@ resource "aws_route53_record" "this" {
   type    = "A"
 
   alias {
-    name                   = "${module.vpce.dns_entry[0]["dns_name"]}."
-    zone_id                = module.vpce.dns_entry[0].hosted_zone_id
+    name                   = "${module.vpce.vpce_endpoint_dns[0]["dns_name"]}."
+    zone_id                = module.vpce.vpce_endpoint_dns[0].hosted_zone_id
     evaluate_target_health = true
   }
 

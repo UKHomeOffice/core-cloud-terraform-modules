@@ -1,9 +1,9 @@
 output "vpce_endpoint_id" {
-  value = aws_vpc_endpoint.this.id
+  value = module.vpce.vpce_endpoint_id
 }
 
 output "vpce_endpoint_arn" {
-  value = aws_vpc_endpoint.this.arn
+  value = module.vpce.vpce_endpoint_arn
 }
 
 output "aws_route53_record_zone_id" {
