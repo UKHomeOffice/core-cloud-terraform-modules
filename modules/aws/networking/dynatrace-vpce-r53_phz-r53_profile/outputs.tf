@@ -10,6 +10,6 @@ output "aws_route53_record_zone_id" {
   value = aws_route53_zone.this.zone_id
 }
 
-output "aws_route53_records" {
-  value = aws_route53_record.this[*]
+output "aws_route53_records_fqdn" {
+  value = aws_route53_record.this[*].fqdn
 }
