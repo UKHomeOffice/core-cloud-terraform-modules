@@ -56,7 +56,7 @@ module "route53_profile" {
   source = "git::https://github.com/UKHomeOffice/core-cloud-route53-profile-tf-module.git?ref=0.1.0"
 
   r53_profile_name = "dynatrace"
-  r53_zone_ids     = aws_route53_zone.this.zone_id
+  r53_zone_ids     = [aws_route53_zone.this.zone_id]
 
   tags = merge(
     var.tags,
