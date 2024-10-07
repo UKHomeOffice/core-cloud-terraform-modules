@@ -33,6 +33,8 @@ resource "aws_route53_zone" "this" {
       "vpce_id"   = var.vpc_id
     }
   )
+
+  depends_on = [module.vpce]
 }
 
 resource "aws_route53_record" "this" {
@@ -65,4 +67,8 @@ module "route53_profile" {
       "r53_phz_id" = aws_route53_zone.this.zone_id
     }
   )
+
+  depends_on = [
+    aws_route53_zone.this
+  ]
 }
