@@ -10,9 +10,6 @@ output "aws_route53_record_zone_id" {
   value = aws_route53_zone.this.zone_id
 }
 
-output "outputs" {
-  value = {
-    dynatrace_env  = keys(aws_route53_record.this).*.fqdn
-    dynatrace_fqdn = values(aws_route53_record.this).*.fqdn
-  }
+output "aws_route53_records_fqdn" {
+  value = aws_route53_record.thia.*.fqdn
 }
