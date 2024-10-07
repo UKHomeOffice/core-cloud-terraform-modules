@@ -1,9 +1,3 @@
-variable "region" {
-  description = "The AWS region to deploy the vpc endpoint"
-  type        = string
-  default     = "eu-west-2"
-}
-
 variable "vpc_id" {
   description = "The ID of the VPC in which the endpoint will be used"
   type        = string
@@ -13,11 +7,6 @@ variable "dynatrace_r53_records" {
   description = "A map of route53 records to generate when provided a map of logical and actual dynatrace environments e.g. {test = nuh63189}"
   type        = map(string)
   default     = {}
-}
-
-variable "vpc_endpoint_name" {
-  description = "The name of the VPC Endpoint resource - try and match the service name as close as possible"
-  type        = string
 }
 
 variable "service_name" {
@@ -33,30 +22,6 @@ variable "security_group_ids" {
 
 variable "subnet_ids" {
   description = "The ID of one or more subnets in which to create a network interface for the endpoint."
-  type        = list(string)
-  default     = []
-}
-
-variable "managed_private_dns_enabled" {
-  description = "Whether or not to associate a AWS managed private hosted zone with the specified VPC - AWS services and AWS Marketplace partner services only"
-  type        = bool
-  default     = false
-}
-
-variable "custom_private_r53_zone" {
-  description = "If desired specify a private dns hosted zone for the VPC endpoint"
-  type        = string
-  default     = ""
-}
-
-variable "custom_private_r53_zone_ttl" {
-  description = "If desired specify the ttl of the dns record for the VPC endpoint"
-  type        = string
-  default     = "300"
-}
-
-variable "custom_private_r53_associated_vpcs" {
-  description = "A list of additional VPC IDs that's to be associated with the custom Route53 PHZ"
   type        = list(string)
   default     = []
 }
