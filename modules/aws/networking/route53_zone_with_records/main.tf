@@ -12,7 +12,7 @@ resource "aws_route53_zone" "this" {
 
 module "records" {
   source  = "terraform-aws-modules/route53/aws//modules/records"
-  version = "~> 4"
+  version = "~> 4.0"
 
   zone_id             = aws_route53_zone.this.zone_id
   records_jsonencoded = var.r53_records_as_json
