@@ -60,7 +60,7 @@ module "r53_zone_with_rec" {
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_records"></a> [records](#module\_records) | terraform-aws-modules/route53/aws//modules/records | ~> 4 |
+| <a name="module_records"></a> [records](#module\_records) | terraform-aws-modules/route53/aws//modules/records | ~> 4.0 |
 
 ## Resources
 
