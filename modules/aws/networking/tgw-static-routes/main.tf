@@ -10,7 +10,7 @@ data "aws_ec2_transit_gateway_route_table" "tgw_rt" {
 
 # Read routes from the text file (routes.json)
 locals {
-  routes = jsondecode(var.static_routes_file)
+  routes = yamldecode(var.static_routes_file)
 }
 
 # Add static routes to the TGW route table using the data from the text file
