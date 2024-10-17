@@ -51,7 +51,7 @@ resource "aws_networkfirewall_firewall_policy" "policy" {
 
     # Specify stateful default actions
     stateful_default_actions = [
-      "aws:drop_established",     
+    #  "aws:drop_established", 
       "aws:alert_established"     
     ]
 
