@@ -5,7 +5,7 @@ resource "aws_lb" "lb" {
   subnets            = var.subnets
   security_groups    = [aws_security_group.sg.id]
   enable_cross_zone_load_balancing = true
-  enable_deletion_protection       = false
+  enable_deletion_protection       = true
   enable_http2                    = false
 
 #   access_logs {
