@@ -5,6 +5,7 @@ This module provisions resources for ... ALB
 
 Example usage:
 
+# nlb_ips are from workload a/c - after the nlb is provisioned
 # terragrunt.hcl
 
 inputs = {
@@ -22,7 +23,7 @@ inputs = {
   tg_port             = "443"
   tg_protocol         = "HTTPS"
   target_type         = "ip"   # allowed values are: ip or instance or alb or lambda
-  # nlb_ips are form tenant/canary/dev - after the nlb is provisioned
+
   nlb_ips             = local.config.tenant.canary.dev.nlb_ips
 
   ingress_rules = [
