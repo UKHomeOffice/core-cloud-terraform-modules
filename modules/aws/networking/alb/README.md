@@ -3,10 +3,7 @@
 
 This module provisions resources for ... ALB
 
-Example usage:
-
-# nlb_ips are from workload a/c - after the nlb is provisioned
-# terragrunt.hcl
+Example usage: terragrunt.hcl
 
 inputs = {
 
