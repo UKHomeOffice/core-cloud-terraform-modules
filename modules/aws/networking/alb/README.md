@@ -1,8 +1,55 @@
 <!-- BEGIN_TF_DOCS -->
 header: |
-  # My Terraform Module - ALB
+  # Terraform Module - ALB
 
   This module provisions resources for ... ALB
+
+  Example usage:
+  # terragrunt.hcl
+  inputs = {
+    name               = "cc-central-ingress-alb"
+    prefix             = "cc-central-ingress-alb"
+    load_balancer_type = "application"
+    load_balancer_internal = false
+    enable_deletion_protection = true 
+    vpc_id             = "vpc-example"  
+    subnets            = ["subnet-1", "subnet-2", "subnet-3"] # subnets from vpc
+    certificate_arn     = "arn:aws:acm:eu-west-2:<account-id>:certificate/example_cert"
+    access_logs_bucket  = "example-alb-accesslogs-bucket"
+
+    tg_port             = "443"
+    tg_protocol         = "HTTPS"
+    target_type         = "ip"   # allowed values are: ip or instance or alb or lambda
+    # nlb_ips are form tenant/canary/dev - after the nlb is provisioned
+    nlb_ips             = local.config.tenant.canary.dev.nlb_ips
+
+    ingress_rules = [
+      {
+        from_port   = 80
+        to_port     = 80
+        protocol    = "tcp"
+        cidr_blocks  = ["0.0.0.0/0"]
+        description = "Allow HTTP traffic"
+      },
+      {
+        from_port   = 443
+        to_port     = 443
+        protocol    = "tcp"
+        cidr_blocks  = ["0.0.0.0/0"]
+        description = "Allow HTTPS traffic"
+      },
+    ]
+
+    egress_rules = [
+      {
+        from_port   = 0
+        to_port     = 0
+        protocol    = "-1" # All traffic
+        cidr_blocks  = ["0.0.0.0/0"]
+        description = "Allow all outbound traffic"
+      },
+    ]
+  }
 
 ## Providers
 
