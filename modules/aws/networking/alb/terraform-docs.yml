@@ -1,77 +1,15 @@
-# terraform-docs.yml
-
 formatter: markdown
 
 output:
   file: README.md
   mode: inject
 
-content: |
-  header: |
-    # My Terraform Module
-
-    This module provisions resources for ...
-    _(Brief description of the module's purpose)_
-
-  footer: |
-    ## Contributing
-
-    Contributions are welcome! Please create a pull request or open an issue for suggestions and improvements.
-
 settings:
-  indent: 2
-  escape: false
-  sort:
-    inputs: true
-    outputs: true
-    providers: true
-    resources: true
-  hide:
-    header: false
-    footer: false
-    inputs: false
-    outputs: false
-    providers: false
-    requirements: false
-    resources: false
   sections:
     - header
-    - inputs
-    - outputs
     - providers
     - requirements
     - resources
+    - inputs
+    - outputs
     - footer
-
-templates:
-  inputs: |
-    ## Inputs
-
-    | Name        | Description                         | Type   | Default     | Required |
-    |-------------|-------------------------------------|--------|-------------|----------|
-    {{ range .Inputs }}
-    | `{{ .Name }}` | {{ .Description | markdownify }} | {{ .Type }} | {{ .Default }} | {{ .Required }} |
-    {{ end }}
-  
-  outputs: |
-    ## Outputs
-
-    | Name        | Description                         |
-    |-------------|-------------------------------------|
-    {{ range .Outputs }}
-    | `{{ .Name }}` | {{ .Description | markdownify }} |
-    {{ end }}
-
-  providers: |
-    ## Providers
-
-    {{ range .Providers }}
-    - {{ .FullName }} ({{ .Version | default "required version unspecified" }})
-    {{ end }}
-
-  resources: |
-    ## Resources
-
-    {{ range .Resources }}
-    - {{ .Type }}.{{ .Name }}
-    {{ end }}
