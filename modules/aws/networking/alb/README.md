@@ -5,6 +5,7 @@ This module provisions resources for ... ALB
 
 Example usage: terragrunt.hcl
 
+```hcl
 inputs = {
 
   name               = "cc-central-ingress-alb"
