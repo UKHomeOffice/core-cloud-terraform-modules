@@ -1,0 +1,29 @@
+formatter: markdown
+
+output:
+  file: README.md
+  mode: inject
+
+content: |
+  header: |
+    # My Terraform Module - ALB
+
+    This module provisions resources for ... ALB
+ 
+  {{ .Providers }}
+  {{ .Requirements }}
+  {{ .Resources }}
+  {{ .Inputs }}
+  {{ .Outputs }}
+
+  {{ .Footer }}
+
+settings:
+  sections:
+    - header
+    - providers
+    - requirements
+    - resources
+    - inputs
+    - outputs
+    - footer
