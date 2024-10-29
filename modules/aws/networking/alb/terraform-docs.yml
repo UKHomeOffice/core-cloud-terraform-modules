@@ -6,7 +6,7 @@ output:
   file: README.md
   mode: inject
 
-content:
+content: |
   header: |
     # My Terraform Module
 
@@ -44,7 +44,6 @@ settings:
     - footer
 
 templates:
-  # Customize formatting for specific sections
   inputs: |
     ## Inputs
 
