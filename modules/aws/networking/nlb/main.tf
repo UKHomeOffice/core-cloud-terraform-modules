@@ -61,20 +61,3 @@ resource "aws_lb_target_group_attachment" "instance_target_group_attachment" {
   target_id        = each.key          # each.key is the instance ID
   port             = 80
 }
-
-
-# Data source to fetch the network interfaces for the NLB
-data "aws_network_interfaces" "lb_enis" {
-  depends_on = [aws_lb.lb]
-  filter {
-    name   = "description"
-    values = ["ELB ${aws_lb.lb.arn_suffix}"]
-  }
-}
-# Fetch the details of each network interface using its ID
-data "aws_network_interface" "lb_interface" {
-  for_each = toset(data.aws_network_interfaces.lb_enis.ids)
-
-  id = each.value
-}
-
