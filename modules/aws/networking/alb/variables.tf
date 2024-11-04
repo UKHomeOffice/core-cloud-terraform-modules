@@ -35,11 +35,6 @@ variable "access_logs_bucket" {
   description = "S3 bucket for NLB access logs"
 }
 
-variable "enable_deletion_protection" {
-  type        = string
-  description = "enable_deletion_protection true or false"
-}
-
 variable "load_balancer_type" {
   type        = string
   description = "load_balancer_type - network or application"
@@ -68,6 +63,21 @@ variable "nlb_ips" {
   #   "10.0.1.10" = "eu-west-2a",
   #   "10.0.2.10" = "eu-west-2b"
   # }
+}
+
+variable "enable_deletion_protection" {
+  type        = string
+  description = "enable_deletion_protection - true or false"  
+}
+
+variable "enable_cross_zone_load_balancing" {
+  type        = string
+  description = "enable_cross_zone_load_balancing - true or false"  
+}
+
+variable "enable_http2" {
+  type        = string
+  description = "enable_http2 - true or false"  
 }
 
 # SG related 

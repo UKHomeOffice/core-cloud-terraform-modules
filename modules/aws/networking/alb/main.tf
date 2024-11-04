@@ -4,9 +4,9 @@ resource "aws_lb" "lb" {
   load_balancer_type = var.load_balancer_type
   subnets            = var.subnets
   security_groups    = [aws_security_group.sg.id]
-  enable_cross_zone_load_balancing = true
-  enable_deletion_protection       = true
-  enable_http2                    = false
+  enable_cross_zone_load_balancing = var.enable_cross_zone_load_balancing
+  enable_deletion_protection       = var.enable_deletion_protection
+  enable_http2                     = var.enable_http2
 
 #   access_logs {
 #     bucket  = var.access_logs_bucket
