@@ -8,10 +8,10 @@ resource "aws_lb" "lb" {
   enable_deletion_protection       = var.enable_deletion_protection
   enable_http2                     = var.enable_http2
 
-#   access_logs {
-#     bucket  = var.access_logs_bucket
-#     enabled = true
-#   }
+  access_logs {
+    bucket  = var.access_logs_bucket
+    enabled = var.access_logs_enabled
+  }
 
   tags = {
     Name = var.name

@@ -13,10 +13,13 @@ inputs = {
   load_balancer_type = "application"
   load_balancer_internal = false
   enable_deletion_protection = true 
+  enable_cross_zone_load_balancing = true
+  enable_http2        = false
   vpc_id             = "vpc-example"  
   subnets            = ["subnet-1", "subnet-2", "subnet-3"] # subnets from vpc
   certificate_arn     = "arn:aws:acm:eu-west-2:<account-id>:certificate/example_cert"
   access_logs_bucket  = "example-alb-accesslogs-bucket"
+  access_logs_enabled = false
 
   tg_port             = "443"
   tg_protocol         = "HTTPS"

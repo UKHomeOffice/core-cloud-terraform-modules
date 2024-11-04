@@ -12,11 +12,14 @@ inputs = {
   load_balancer_type = "network"
   load_balancer_internal = true
   enable_deletion_protection = true 
+  enable_cross_zone_load_balancing = true
+  enable_http2        = false
   vpc_id              = "vpc-example" 
   subnets             = ["subnet-1", "subnet-2", "subnet-3"] 
   certificate_arn     = "arn:aws:acm:eu-west-2:<account-id>:certificate/<example-cert-id>
   access_logs_bucket  = "example-nlb-accesslogs-bucket"
-
+  access_logs_enabled = false
+  
   tg_port           = "80"
   tg_protocol       = "TCP"
   target_type       = "instance"   # allowed values are: ip or instance or alb or lambda

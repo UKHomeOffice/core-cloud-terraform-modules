@@ -35,6 +35,11 @@ variable "access_logs_bucket" {
   description = "S3 bucket for NLB access logs"
 }
 
+variable "access_logs_enabled" {
+  type        = string
+  description = "access_logs_enabled - true or false"
+}
+
 variable "load_balancer_type" {
   type        = string
   description = "load_balancer_type - network or application"
