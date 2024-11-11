@@ -1,0 +1,24 @@
+formatter: markdown
+
+output:
+  file: README.md
+  mode: inject
+
+content: |
+  # Terraform Module for - tgw-static-routes
+  ...
+  {{ .Providers }}
+  {{ .Requirements }}
+  {{ .Resources }}
+  {{ .Inputs }}
+  {{ .Outputs }}
+  {{ .Footer }}
+settings:
+  sections:
+    - header
+    - providers
+    - requirements
+    - resources
+    - inputs
+    - outputs
+    - footer
