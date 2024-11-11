@@ -6,7 +6,23 @@ output:
 
 content: |
   # Terraform Module for - network-firewall-rules-inspection
-  ...
+  # Example terragrunt.hcl inputs 
+  ```hcl
+  inputs = {
+    name        = "cc-inspection-notprod-nfw-base-rules"
+    description = "cc-inspection-notprod-nfw-base-rules"
+    account_id  = "example-aws-account-id"
+    vpc_id      = "vpc-example-id"
+    network_firewall_name = "cc-inspection-notprod-nfw"
+    network_firewall_policy_name = "cc-inspection-notprod-nfw-policy"
+    rules_file = file("./rules.txt") 
+    aws_managed_rule_groups = file("./aws_managed_rule_groups.txt")
+    aws_region    = local.aws_region
+    tags = {
+      Name = "cc-networking-${get_env("env_name", "")}"
+    }
+  }
+  ```
   {{ .Providers }}
   {{ .Requirements }}
   {{ .Resources }}
