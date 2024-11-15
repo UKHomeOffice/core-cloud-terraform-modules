@@ -1,0 +1,32 @@
+formatter: markdown
+
+output:
+  file: README.md
+  mode: inject
+
+content: |
+  # Terraform Module for - acp-peering-attachment
+  # Example terragrunt.hcl - inputs
+  ```hcl
+  inputs = {
+    acp_account_id = "aws-account-id"
+    acp_region = "eu-west-2"
+    acp_tgw_id = "tgw-id"
+    cc_hub_tgw_id = dependency.hub_tgw.outputs.ec2_transit_gateway_id
+  }
+  ```
+  {{ .Providers }}
+  {{ .Requirements }}
+  {{ .Resources }}
+  {{ .Inputs }}
+  {{ .Outputs }}
+  {{ .Footer }}
+settings:
+  sections:
+    - header
+    - providers
+    - requirements
+    - resources
+    - inputs
+    - outputs
+    - footer

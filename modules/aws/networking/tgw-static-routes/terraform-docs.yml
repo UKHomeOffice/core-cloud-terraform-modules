@@ -1,0 +1,31 @@
+formatter: markdown
+
+output:
+  file: README.md
+  mode: inject
+
+content: |
+  # Terraform Module for - tgw-static-routes
+  # Example terragrunt.hcl inputs 
+  ```hcl
+  inputs = {
+    tgw_route_table_id   = "tgw-rtb-example"   # get the correct rtb id from console
+    tgw_route_table_name = "cc-post-inspection-prod-rt"
+    static_routes_file   = file("./routes.yaml") 
+  }
+  ```
+  {{ .Providers }}
+  {{ .Requirements }}
+  {{ .Resources }}
+  {{ .Inputs }}
+  {{ .Outputs }}
+  {{ .Footer }}
+settings:
+  sections:
+    - header
+    - providers
+    - requirements
+    - resources
+    - inputs
+    - outputs
+    - footer

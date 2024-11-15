@@ -1,0 +1,34 @@
+formatter: markdown
+
+output:
+  file: README.md
+  mode: inject
+
+content: |
+  # Terraform Module for - eip
+  # Example terragrunt.hcl inputs 
+  ```hcl
+  inputs = {
+    name        = "cc-networking-tenant-canary-dev"
+    description = "An EIP and its assocaition to transfer family vpc endpoint"
+    aws_region  = local.aws_region
+    tags = {
+      Name = "cc-networking-${get_env("env_name", "")}"
+    }
+  }
+  ```
+  {{ .Providers }}
+  {{ .Requirements }}
+  {{ .Resources }}
+  {{ .Inputs }}
+  {{ .Outputs }}
+  {{ .Footer }}
+settings:
+  sections:
+    - header
+    - providers
+    - requirements
+    - resources
+    - inputs
+    - outputs
+    - footer

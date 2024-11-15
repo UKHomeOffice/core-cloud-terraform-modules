@@ -1,0 +1,33 @@
+formatter: markdown
+
+output:
+  file: README.md
+  mode: inject
+
+content: |
+  # Terraform Module for - ctn-connect-attachment
+  # Example terragrunt.hcl - inputs
+  ```hcl
+  inputs = {
+  ctn_transit_gateway_attachment_id = "tgw-attach-id-example"
+  cc_hub_tgw_id                     = dependency.hub_tgw.outputs.ec2_transit_gateway_id
+  cc_transit_gateway_attachment_id = "cc-tgw-attach-id-example"
+  cc_destination_cidr_block = "10.251.0.0/16"
+  cc_transit_gateway_route_table_id = "tgw-rtb-id-example"
+  }
+  ```
+  {{ .Providers }}
+  {{ .Requirements }}
+  {{ .Resources }}
+  {{ .Inputs }}
+  {{ .Outputs }}
+  {{ .Footer }}
+settings:
+  sections:
+    - header
+    - providers
+    - requirements
+    - resources
+    - inputs
+    - outputs
+    - footer
