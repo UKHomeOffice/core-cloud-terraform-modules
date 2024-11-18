@@ -35,6 +35,12 @@ variable "access_logs_bucket" {
   description = "S3 bucket for NLB access logs"
 }
 
+variable "access_logs_bucket_prefix" {
+  type        = string
+  description = "S3 bucket prefix if bucket is stored outside root account"
+  default     = ""
+}
+
 variable "access_logs_enabled" {
   type        = string
   description = "access_logs_enabled - true or false"
