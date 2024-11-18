@@ -10,6 +10,7 @@ resource "aws_lb" "lb" {
 
   access_logs {
     bucket  = var.access_logs_bucket
+    prefix  = var.access_logs_bucket_prefix
     enabled = var.access_logs_enabled
   }
 
