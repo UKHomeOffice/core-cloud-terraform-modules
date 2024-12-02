@@ -1,0 +1,38 @@
+formatter: markdown
+
+output:
+  file: README.md
+  mode: replace
+
+content: |
+  # CloudWatch Logs Subscribe With Tags
+  
+  A terraform module that creates an EventBridge rule which listens for tag changes on Cloud Watch log groups.
+  
+  If a tag matching a user-defined pattern is found, and the tag value matches the "opt-in" user-defined pattern, then
+  a subscription filter will be added to the Log Group in order to forward the logs to a user-defined destination.
+  
+  A good use-case for this module is to selectively forward certain logs to a Kinesis stream for onward ingestion into Splunk,
+  or to ensure that certain logs get forwarded to a destination for long-term S3 archival.
+  
+  ## Example usage
+  ```hcl
+  module "cwl-subscribe-with-tag" {
+    source                          = "./cwl-subscribe-with-tag"
+    name                            = "send-to-splunk"
+    tag_pattern                     = "splunk"
+    cloudwatch_logs_destination_arn = aws_cloudwatch_log_destination.kinesis.arn
+  }
+  ```
+  {{ .Providers }}
+  {{ .Resources }}
+  {{ .Inputs }}
+  {{ .Footer }}
+settings:
+  sections:
+    - header
+    - providers
+    - resources
+    - inputs
+    - outputs
+    - footer
