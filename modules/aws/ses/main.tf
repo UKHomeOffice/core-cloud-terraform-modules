@@ -1,54 +1,83 @@
+# SES IAM Role and SES Configuration
+resource "aws_iam_role" "ses_role" {
+  for_each = { for account in var.account_configs : account.roles[0].role_name => account }
 
-# Create IAM users for SES credentials
-resource "aws_iam_user" "ses_user" {
-  count = length(var.ses_creds)
+  name = each.value.roles[0].role_name
 
-  name = var.ses_creds[count.index].name
-}
-
-# Create IAM access keys for SES users
-resource "aws_iam_access_key" "ses_access_key" {
-  count = length(var.ses_creds)
-
-  user = aws_iam_user.ses_user[count.index].name
-}
-
-# Create Secrets Manager secret to store access keys
-resource "aws_secretsmanager_secret" "ses_secret" {
-  count = length(var.ses_creds)
-
-  name        = "ses-credentials-${var.ses_creds[count.index].name}"
-  description = "SES credentials for ${var.ses_creds[count.index].name}"
-
-  tags = {
-    "Environment" = "production"
-  }
-}
-
-# Store the IAM access key and secret access key in Secrets Manager
-resource "aws_secretsmanager_secret_version" "ses_secret_version" {
-  count = length(var.ses_creds)
-
-  secret_id     = aws_secretsmanager_secret.ses_secret[count.index].id
-  secret_string = jsonencode({
-    access_key_id     = aws_iam_access_key.ses_access_key[count.index].id
-    secret_access_key = aws_iam_access_key.ses_access_key[count.index].secret
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect    = "Allow"
+        Principal = { Service = "ec2.amazonaws.com" }
+        Action    = "sts:AssumeRole"
+      }
+    ]
   })
 }
 
-# SES domain identity setup
-resource "aws_ses_domain_identity" "domain_identity" {
-  domain = var.domain
+resource "aws_iam_policy" "ses_policy" {
+  for_each = { for account in var.account_configs : account.roles[0].role_name => account }
+
+  name        = each.value.roles[0].role_name
+  description = "Policy for SES access"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect   = "Allow"
+        Action   = ["ses:SendEmail", "ses:SendRawEmail"]
+        Resource = "*"
+      }
+    ]
+  })
 }
 
-# SES domain DKIM setup
-resource "aws_ses_domain_dkim" "domain_dkim" {
-  domain = var.domain
+resource "aws_iam_role_policy_attachment" "ses_policy_attachment" {
+  for_each = { for account in var.account_configs : account.roles[0].role_name => account }
+
+  role       = aws_iam_role.ses_role[each.key].name
+  policy_arn = aws_iam_policy.ses_policy[each.key].arn
 }
 
-# Domain verification setup in SES
-resource "aws_ses_domain_identity_verification" "domain_verification" {
-  domain = var.domain
+resource "aws_iam_instance_profile" "ses_instance_profile" {
+  for_each = { for account in var.account_configs : account.roles[0].role_name => account }
+
+  name = each.value.roles[0].role_name
+  role = aws_iam_role.ses_role[each.key].name
+}
+
+resource "aws_ses_domain_identity" "ses_domain" {
+  for_each = { for account in var.account_configs : account.roles[0].role_name => account }
+
+  domain = each.value.roles[0].domain_name
 }
 
 
+#####
+# NOTE: THESE MUST GO  INTO NETWORK ACCOUNT SO REQUEST THIS WITH ANDROMEDA - CROSS ACCOUNT ROLES DON't WORK 
+#       SO THIS WOULD BE MANUAL
+
+
+# resource "aws_route53_record" "ses_verification" {
+#   count = var.create_route53_records ? 1 : 0
+#   for_each = { for account in var.account_configs : account.roles[0].role_name => account }
+
+#   zone_id = each.value.roles[0].route53_zone_id
+#   name    = "_amazonses.${aws_ses_domain_identity.ses_domain[each.key].domain}"
+#   type    = "TXT"
+#   ttl     = 300
+#   records = [aws_ses_domain_identity.ses_domain[each.key].verification_token]
+# }
+
+# resource "aws_route53_record" "ses_dkim" {
+#   count = var.create_route53_records ? 3 : 0
+#   for_each = { for account in var.account_configs : account.roles[0].role_name => account }
+
+#   zone_id = each.value.roles[0].route53_zone_id
+#   name    = lookup(aws_ses_domain_identity.ses_domain[each.key].dkim_tokens, count.index, "")
+#   type    = "CNAME"
+#   ttl     = 300
+#   records = ["${lookup(aws_ses_domain_identity.ses_domain[each.key].dkim_tokens, count.index, "")}.amazonses.com"]
+# }
