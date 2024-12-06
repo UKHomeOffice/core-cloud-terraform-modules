@@ -1,0 +1,9 @@
+accounts:
+  - name: account1
+    role: role1
+    account_id: "345678901234"
+    ses_domain: "app1.core.homeoffice.gov.uk"
+  - name: account2
+    role: role2
+    account_id: "456789012345"
+    ses_domain: "app2.core.homeoffice.gov.uk"
