@@ -1,8 +1,8 @@
 # variables
 variable "tags" {
   description = "Tags to apply to the resources."
-  type = map(string)
-  default = {}
+  type        = map(string)
+  default     = {}
 }
 
 variable "account_id" {
@@ -27,7 +27,7 @@ variable "vpc_id" {
 
 variable "home_net_cidr_ranges" {
   description = "A set of CIDR ranges used fro the `HOME_NET` rule variable."
-  type = set(string)
+  type        = set(string)
 }
 
 variable "whitelisted_domains" {
