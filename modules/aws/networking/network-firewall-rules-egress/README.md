@@ -40,7 +40,7 @@ No requirements.
 |------|-------------|------|---------|:--------:|
 | <a name="input_account_id"></a> [account\_id](#input\_account\_id) | Network Firewall Account-id | `string` | n/a | yes |
 | <a name="input_aws_managed_rule_groups"></a> [aws\_managed\_rule\_groups](#input\_aws\_managed\_rule\_groups) | Network Firewall - A list of AWS maanged stateful rule group arns | `string` | n/a | yes |
-| <a name="input_cidr_input"></a> [cidr\_input](#input\_cidr\_input) | CIDR range | `string` | n/a | yes |
+| <a name="input_home_net_cidr_ranges"></a> [home\_net\_cidr\_ranges](#input\_home\_net\_cidr\_ranges) | A set of CIDR ranges used fro the `HOME_NET` rule variable. | `set(string)` | n/a | yes |
 | <a name="input_network_firewall_name"></a> [network\_firewall\_name](#input\_network\_firewall\_name) | Network Firewall name to be supplied | `string` | n/a | yes |
 | <a name="input_network_firewall_policy_name"></a> [network\_firewall\_policy\_name](#input\_network\_firewall\_policy\_name) | Network Firewall Policy name to be supplied | `string` | n/a | yes |
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags to apply to the resources. | `map(string)` | `{}` | no |

@@ -11,7 +11,7 @@ resource "aws_networkfirewall_rule_group" "allow_domains_for_nonprod_01" {
       ip_sets {
         key = "HOME_NET"
         ip_set {
-          definition = [var.cidr_input]
+          definition = var.home_net_cidr_ranges
         }
       }
     }

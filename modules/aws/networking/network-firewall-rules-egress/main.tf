@@ -2,7 +2,7 @@
 # Importing the already existing nfw #
 ###############################################
 data "aws_networkfirewall_firewall" "existing_firewall" {
-  name = var.network_firewall_name   # "your-existing-firewall-name" imported using terragrunt as it was created using LZA
+  name = var.network_firewall_name # "your-existing-firewall-name" imported using terragrunt as it was created using LZA
 }
 
 # Imported the existing NFW below as it was created using LZA
@@ -17,7 +17,7 @@ import {
 resource "aws_networkfirewall_firewall" "existing_firewall" {
   name                = var.network_firewall_name ## Existing firewall name
   vpc_id              = var.vpc_id                ## Use the existing VPC ID
-  firewall_policy_arn = aws_networkfirewall_firewall_policy.policy.arn 
+  firewall_policy_arn = aws_networkfirewall_firewall_policy.policy.arn
 
   # Subnet mappings (use the existing subnets here)
   dynamic "subnet_mapping" {
@@ -51,13 +51,13 @@ resource "aws_networkfirewall_firewall_policy" "policy" {
 
     # Specify stateful default actions
     stateful_default_actions = [
-    #  "aws:drop_established", 
-      "aws:alert_established"     
+      #  "aws:drop_established", 
+      "aws:alert_established"
     ]
 
     # Configure stateful engine options
     stateful_engine_options {
-      rule_order = "STRICT_ORDER"  # Options: "STRICT_ORDER" or "DEFAULT_ACTION_ORDER"
+      rule_order = "STRICT_ORDER" # Options: "STRICT_ORDER" or "DEFAULT_ACTION_ORDER"
     }
 
     dynamic "stateful_rule_group_reference" {

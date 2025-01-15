@@ -6,36 +6,36 @@ variable "tags" {
 }
 
 variable "account_id" {
-    description = "Network Firewall Account-id"
-    type        = string  
+  description = "Network Firewall Account-id"
+  type        = string
 }
 
 variable "network_firewall_name" {
-    description = "Network Firewall name to be supplied"
-    type        = string  
+  description = "Network Firewall name to be supplied"
+  type        = string
 }
 
 variable "network_firewall_policy_name" {
-    description = "Network Firewall Policy name to be supplied"
-    type        = string  
+  description = "Network Firewall Policy name to be supplied"
+  type        = string
 }
 
 variable "vpc_id" {
-    description = "VPC assocaited with Network Firewall"
-    type        = string  
+  description = "VPC associated with Network Firewall"
+  type        = string
 }
 
-variable "cidr_input" {
-    description = "CIDR range"
-    type        = string
+variable "home_net_cidr_ranges" {
+  description = "A set of CIDR ranges used fro the `HOME_NET` rule variable."
+  type        = set(string)
 }
 
 variable "whitelisted_domains" {
-    description = "Network Firewall - whitelisted domains file"
-    type        = string  
+  description = "Network Firewall - whitelisted domains file"
+  type        = string
 }
 
 variable "aws_managed_rule_groups" {
-    description = "Network Firewall - A list of AWS maanged stateful rule group arns"
-    type        = string  
+  description = "Network Firewall - A list of AWS managed stateful rule group arns"
+  type        = string
 }
