@@ -11,15 +11,15 @@ resource "aws_networkfirewall_rule_group" "allow_domains_for_nonprod_01" {
       ip_sets {
         key = "HOME_NET"
         ip_set {
-          definition = [var.cidr_input]
+          definition = var.home_net_cidr_ranges
         }
       }
     }
     rules_source {
       rules_source_list {
         generated_rules_type = "ALLOWLIST"
-        target_types         = ["HTTP_HOST", "TLS_SNI"]
-        targets = [
+        target_types = ["HTTP_HOST", "TLS_SNI"]
+        targets              = [
           for line in split("\n", (var.whitelisted_domains)) : trim(line, " \r")
         ]
       }
