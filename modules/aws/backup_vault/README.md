@@ -3,7 +3,7 @@
 # Example terragrunt.hcl - inputs
 ```hcl
 inputs = {
-name = "local-backup-vault"
+  name = "local-backup-vault"
 }
 ```
 ## Requirements
