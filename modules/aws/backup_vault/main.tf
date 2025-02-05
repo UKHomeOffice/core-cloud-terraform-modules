@@ -1,6 +1,7 @@
 resource "aws_backup_vault" "this" {
-  name = var.name
-  tags = var.tags
+  name        = var.name
+  tags        = var.tags
+  kms_key_arn = try(var.backup_vault_kms_key_arn, null)
 }
 
 # Created if the policy JSON is supplied.
