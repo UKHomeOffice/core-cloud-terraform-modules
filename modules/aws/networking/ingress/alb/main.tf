@@ -12,6 +12,7 @@ resource "aws_security_group" "alb_sg" {
   vpc_id = data.aws_vpcs.filtered_vpcs.ids[0]
 
   ingress {
+    description = "Allow traffic from Internet"
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
@@ -19,11 +20,13 @@ resource "aws_security_group" "alb_sg" {
   }
 
   egress {
+    description = "Allow traffic from ALB to NLBs in workload accounts"
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["10.0.0.0/8","172.16.0.0/16"] # Adjust as per your VPC CIDR
   }
+  
 }
 
 # Create ALB
@@ -34,7 +37,10 @@ resource "aws_lb" "tenant_alb" {
   security_groups    = [aws_security_group.alb_sg.id]
   subnets            = data.aws_subnets.filtered_subnets.ids
 
+  drop_invalid_header_fields = true  # Enable dropping invalid headers
+
   enable_deletion_protection = false
+  
 }
 
 # Target Group using External NLB IPs without VPC association
