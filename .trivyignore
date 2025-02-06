@@ -3,3 +3,7 @@ AVD-AWS-0089
 
 #Ignore requirement for customer managed key for S3 encryption as per CUDOS setup instructions
 AVD-AWS-0132
+
+#Ignore INGRESS Perimeter ALB being external and allow access to internet 
+AVD-AWS-0107
+AVD-AWS-0053
