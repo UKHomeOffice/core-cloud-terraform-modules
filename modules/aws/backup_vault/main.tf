@@ -10,10 +10,3 @@ resource "aws_backup_vault_policy" "this" {
   backup_vault_name = aws_backup_vault.this.name
   policy            = var.backup_vault_policy_json
 }
-
-resource "aws_backup_global_settings" "this" {
-  count = var.enable_cross_account_backup == true ? 1 : 0
-  global_settings = {
-    "isCrossAccountBackupEnabled" = "true"
-  }
-}

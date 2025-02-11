@@ -15,12 +15,6 @@ variable "backup_vault_kms_key_arn" {
   default     = null
 }
 
-variable "enable_cross_account_backup" {
-  description = "Enable cross account backup?"
-  type = bool
-  default = false
-}
-
 variable "tags" {
   description = "Resource tags"
   type        = map(string)
