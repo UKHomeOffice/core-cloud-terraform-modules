@@ -1,7 +1,21 @@
-variable "api_gateway_role_arn" {}
-variable "dynamodb_table_name" {}
+
+variable "dynamodb_table_name" {
+  description = "The name of the DynamoDB table"
+  type        = string
+}
 
 variable "attributes_map" {
+  description = "Map for attributes"
   type        = map(string)
-  description = "Mapping of attribute names to their JSON path keys"
+}
+
+variable "api_gateway_role_arn" {
+  description = "The ARN of the API Gateway IAM role"
+  type        = string
+}
+
+variable "aws_region" {
+  description = "The ARN of the API Gateway IAM role"
+  type        = string
+  default = "eu-west-2"
 }
