@@ -6,7 +6,7 @@ locals {
   ]
 }
 
-resource "aws_ec2_transit_gateway_vpc_attachment" "this" {
+resource "aws_ec2_transit_gateway_vpc_attachment" "twg_vpc" {
   transit_gateway_id = var.transit_gateway_id
   vpc_id             = var.vpc_id
   subnet_ids         = local.ordered_attachment_subnet_ids
