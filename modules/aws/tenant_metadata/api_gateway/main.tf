@@ -29,27 +29,27 @@ resource "aws_api_gateway_integration" "post_dynamodb" {
 
   request_templates = {
     "application/json" = <<EOF
-    {
-      "TableName": "${var.dynamodb_table_name}",
-    "Item": {
-      "tenant": { "S": "$util.escapeJavaScript($input.path('$.request_details')).split('Name of the Portfolio aligned to\\n')[1].trim().split('\\n')[0]" },
-      "ticket_number": { "S": "$input.path('$.ticket_number')" },
-      "summary": { "S": "$input.path('$.summary')" },
-      "description": { "S": "$input.path('$.description')" },  
-      "name_of_portfolio": { "S": "$util.escapeJavaScript($input.path('$.request_details')).split('Name of the Portfolio aligned to\\n')[1].trim().split('\\n')[0]" },
-      "product_name": { "S": "$util.escapeJavaScript($input.path('$.request_details')).split('Product Name\\n')[1].trim().split('\\n')[0]" },
-      "product_short_name": { "S": "$util.escapeJavaScript($input.path('$.request_details')).split('Product short name\\n')[1].trim().split('\\n')[0]" },
-      "finance_account_number": { "S": "$util.escapeJavaScript($input.path('$.request_details')).split('Finance Account Number\\n')[1].trim().split('\\n')[0]" },
-      "cost_code": { "S": "$util.escapeJavaScript($input.path('$.request_details')).split('Cost Code\\n')[1].trim().split('\\n')[0]" },
-      "environment": { "S": "$util.escapeJavaScript($input.path('$.request_details')).split('Environment\\n')[1].trim().split('\\n')[0]" },
-      "delivery_lead": { "S": "$util.escapeJavaScript($input.path('$.request_details')).split('Delivery lead\\n')[1].trim().split('\\n')[0]" },
-      "business_contact": { "S": "$util.escapeJavaScript($input.path('$.request_details')).split('Business contact\\n')[1].trim().split('\\n')[0]" },
-      "financial_contact": { "S": "$util.escapeJavaScript($input.path('$.request_details')).split('Financial contact\\n')[1].trim().split('\\n')[0]" },
-      "tech_lead": { "S": "$util.escapeJavaScript($input.path('$.request_details')).split('Tech lead\\n')[1].trim().split('\\n')[0]" },
-      "created_date": { "S": "$util.escapeJavaScript($input.path('$.request_details')).split('Created\\n')[1].trim().split('\\n')[0]" },
-      "received_timestamp": { "S": "$context.requestTime" }
-    }
-    }
+  {
+      "TableName": "cc-networking-jira-webhook-payloads",
+      "Item": {
+        "tenant": { "S": "$util.escapeJavaScript($input.path('$.request_details')).split('Name of the Portfolio aligned to\\n')[1].trim().split('\\n')[0]" },
+        "ticket_number": { "S": "$input.path('$.ticket_number')" },
+        "summary": { "S": "$input.path('$.summary')" },
+        "description": { "S": "$input.path('$.description')" },  
+        "name_of_portfolio": { "S": "$util.escapeJavaScript($input.path('$.request_details')).split('Name of the Portfolio aligned to\\n')[1].trim().split('\\n')[0]" },
+        "product_name": { "S": "$util.escapeJavaScript($input.path('$.request_details')).split('Product Name\\n')[1].trim().split('\\n')[0]" },
+        "product_short_name": { "S": "$util.escapeJavaScript($input.path('$.request_details')).split('Product short name\\n')[1].trim().split('\\n')[0]" },
+        "finance_account_number": { "S": "$util.escapeJavaScript($input.path('$.request_details')).split('Finance Account Number\\n')[1].trim().split('\\n')[0]" },
+        "cost_code": { "S": "$util.escapeJavaScript($input.path('$.request_details')).split('Cost Code\\n')[1].trim().split('\\n')[0]" },
+        "environment": { "S": "$util.escapeJavaScript($input.path('$.request_details')).split('Environment\\n')[1].trim().split('\\n')[0]" },
+        "delivery_lead": { "S": "$util.escapeJavaScript($input.path('$.request_details')).split('Delivery lead\\n')[1].trim().split('\\n')[0]" },
+        "business_contact": { "S": "$util.escapeJavaScript($input.path('$.request_details')).split('Business contact\\n')[1].trim().split('\\n')[0]" },
+        "financial_contact": { "S": "$util.escapeJavaScript($input.path('$.request_details')).split('Financial contact\\n')[1].trim().split('\\n')[0]" },
+        "tech_lead": { "S": "$util.escapeJavaScript($input.path('$.request_details')).split('Tech lead\\n')[1].trim().split('\\n')[0]" },
+        "created_date": { "S": "$util.escapeJavaScript($input.path('$.request_details')).split('Created\\n')[1].trim().split('\\n')[0]" },
+        "received_timestamp": { "S": "$context.requestTime" }
+      }
+  }
     EOF
   }
 }
@@ -152,7 +152,7 @@ resource "aws_api_gateway_deployment" "deployment" {
   rest_api_id = aws_api_gateway_rest_api.api.id
 
   triggers = {
-    redeployment = sha1(jsonencode(aws_api_gateway_rest_api.api))
+    redeployment = sha1(jsonencode(aws_api_gateway_rest_api.api.body))
   }
 
   lifecycle {
