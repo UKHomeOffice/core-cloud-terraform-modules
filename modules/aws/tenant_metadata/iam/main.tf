@@ -55,7 +55,7 @@ resource "aws_iam_policy" "api_gateway_cloudwatch_policy" {
         "logs:DescribeLogGroups",
         "logs:DescribeLogStreams"
       ]
-      Resource = "arn:aws:logs:${var.aws_region}:${data.aws_caller_identity.current.account_id}:log-group:/aws/apigateway/access-logs"
+      Resource = "*"
     }]
   })
 }
