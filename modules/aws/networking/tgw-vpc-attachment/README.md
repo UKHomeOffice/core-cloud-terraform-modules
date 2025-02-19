@@ -36,7 +36,6 @@ No requirements.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_appliance_mode_support"></a> [appliance\_mode\_support](#input\_appliance\_mode\_support) | Enable appliance mode support if required. | `bool` | `false` | no |
 | <a name="input_attachment_subnet_ids"></a> [attachment\_subnet\_ids](#input\_attachment\_subnet\_ids) | A map of dedicated /28 subnet IDs for each AZ. The keys must match the AZ names provided in `azs`. | `map(string)` | n/a | yes |
 | <a name="input_azs"></a> [azs](#input\_azs) | List of Availability Zones for which the dedicated /28 subnets exist. The order of the AZs determines the order of subnets used in the attachment. | `list(string)` | n/a | yes |
 | <a name="input_transit_gateway_id"></a> [transit\_gateway\_id](#input\_transit\_gateway\_id) | The ID of the Transit Gateway. | `string` | n/a | yes |
