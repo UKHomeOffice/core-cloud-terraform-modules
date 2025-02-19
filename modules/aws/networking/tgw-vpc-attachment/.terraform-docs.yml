@@ -1,0 +1,42 @@
+formatter: markdown
+
+output:
+  file: README.md
+  mode: inject
+
+content: |
+  # Terraform Module for - tgw-vpc-attachment
+  This module creates an AWS Transit Gateway VPC attachment with dedicated, high-availability subnets: one per Availability Zone (AZ).
+  The module expects that you already have a dedicated /28 subnets in your VPC—one in each Availability Zone (AZ). You must provide the IDs of these subnets (keyed by AZ) along with an ordered list of AZs. The module then uses these subnets for a HA Transit Gateway attachment.
+  
+  # Example terragrunt.hcl - inputs
+  ```hcl
+  inputs = {
+  transit_gateway_id = "tgw-0123456789abcdef0"
+  vpc_id             = "vpc-0123456789abcdef0"
+  azs              = ["eu-west-2a", "eu-west-2b", "eu-west-2c"]
+
+  attachment_subnet_ids = {
+    "eu-west-2a" = "cc-vpn-prod-tgwattach-a"
+    "eu-west-2b" = "cc-vpn-prod-tgwattach-b"
+    "eu-west-2c" = "cc-vpn-prod-tgwattach-c"
+  }
+  }
+  appliance_mode_support = false
+
+  ```
+  {{ .Providers }}
+  {{ .Requirements }}
+  {{ .Resources }}
+  {{ .Inputs }}
+  {{ .Outputs }}
+  {{ .Footer }}
+settings:
+  sections:
+    - header
+    - providers
+    - requirements
+    - resources
+    - inputs
+    - outputs
+    - footer
