@@ -11,8 +11,4 @@ resource "aws_ec2_transit_gateway_vpc_attachment" "twg_vpc" {
   vpc_id             = var.vpc_id
   subnet_ids         = local.ordered_attachment_subnet_ids
 
-  options {
-    appliance_mode_support = var.appliance_mode_support
-  }
-
 }

@@ -25,8 +25,3 @@ variable "attachment_subnet_ids" {
   # }
 }
 
-variable "appliance_mode_support" {
-  description = "Enable appliance mode support if required."
-  type        = bool
-  default     = false
-}
