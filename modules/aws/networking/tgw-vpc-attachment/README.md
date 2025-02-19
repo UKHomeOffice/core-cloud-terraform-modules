@@ -1,5 +1,5 @@
 <!-- BEGIN_TF_DOCS -->
-# Terraform Module for AWS Transit Gateway VPC Attachment
+# Terraform Module for - tgw-vpc-attachment
 This module creates an AWS Transit Gateway VPC attachment with dedicated, high-availability subnets: one per Availability Zone (AZ).
 The module expects that you already have dedicated /28 subnets in your VPC—one in each Availability Zone (AZ). You must provide the IDs of these subnets (keyed by AZ) along with an ordered list of AZs. The module then uses these subnets for a HA Transit Gateway attachment.
 
