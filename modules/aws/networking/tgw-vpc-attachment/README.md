@@ -1,5 +1,8 @@
 <!-- BEGIN_TF_DOCS -->
 # Terraform Module for AWS Transit Gateway VPC Attachment
+This module creates an AWS Transit Gateway VPC attachment with dedicated, high-availability subnets: one per Availability Zone (AZ).
+The module expects that you already have dedicated /28 subnets in your VPC—one in each Availability Zone (AZ). You must provide the IDs of these subnets (keyed by AZ) along with an ordered list of AZs. The module then uses these subnets for a highly available Transit Gateway attachment.
+
 # Example terragrunt.hcl - inputs
 ```hcl
 inputs = {
@@ -23,7 +26,7 @@ appliance_mode_support = false
 | <a name="provider_aws"></a> [aws](#provider\_aws) | n/a |
 ## Requirements
 
-It expects that you already have dedicated /28 subnets in your VPC—one in each Availability Zone (AZ). You must provide the IDs of these subnets (keyed by AZ) along with an ordered list of AZs. The module then uses these subnets for a highly available Transit Gateway attachment.
+No requirements.
 ## Resources
 
 | Name | Type |
