@@ -25,3 +25,8 @@ variable "attachment_subnet_ids" {
   # }
 }
 
+variable "transit_gateway_default_route_table_propagation" {
+  description = "(Optional) Boolean whether the VPC Attachment should propagate routes with the EC2 Transit Gateway propagation default route table."
+  type        = bool
+  default     = true
+}
