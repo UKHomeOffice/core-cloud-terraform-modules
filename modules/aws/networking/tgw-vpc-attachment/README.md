@@ -38,6 +38,7 @@ No requirements.
 |------|-------------|------|---------|:--------:|
 | <a name="input_attachment_subnet_ids"></a> [attachment\_subnet\_ids](#input\_attachment\_subnet\_ids) | A map of dedicated /28 subnet IDs for each AZ. The keys must match the AZ names provided in `azs`. | `map(string)` | n/a | yes |
 | <a name="input_azs"></a> [azs](#input\_azs) | List of Availability Zones for which the dedicated /28 subnets exist. The order of the AZs determines the order of subnets used in the attachment. | `list(string)` | n/a | yes |
+| <a name="input_name"></a> [name](#input\_name) | (Optional) Key-value tags for the EC2 Transit Gateway VPC Attachment. | `string` | n/a | yes |
 | <a name="input_transit_gateway_default_route_table_propagation"></a> [transit\_gateway\_default\_route\_table\_propagation](#input\_transit\_gateway\_default\_route\_table\_propagation) | (Optional) Boolean whether the VPC Attachment should propagate routes with the EC2 Transit Gateway propagation default route table. | `bool` | `true` | no |
 | <a name="input_transit_gateway_id"></a> [transit\_gateway\_id](#input\_transit\_gateway\_id) | The ID of the Transit Gateway. | `string` | n/a | yes |
 | <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | The ID of the VPC to attach. | `string` | n/a | yes |

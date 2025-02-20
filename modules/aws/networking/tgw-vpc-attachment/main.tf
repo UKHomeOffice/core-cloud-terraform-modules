@@ -12,4 +12,8 @@ resource "aws_ec2_transit_gateway_vpc_attachment" "twg_vpc" {
   subnet_ids                                      = local.ordered_attachment_subnet_ids
   transit_gateway_default_route_table_propagation = var.transit_gateway_default_route_table_propagation
 
+  tags = {
+    Name = var.name
+  }
+
 }

@@ -30,3 +30,8 @@ variable "transit_gateway_default_route_table_propagation" {
   type        = bool
   default     = true
 }
+
+variable "name" {
+  type        = string
+  description = "(Optional) Key-value tags for the EC2 Transit Gateway VPC Attachment."
+}
