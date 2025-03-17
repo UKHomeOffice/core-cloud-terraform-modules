@@ -1,7 +1,7 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: core-cloud-terraform-modules-template
+  name: core-cloud-terraform-modules
   description: A repo for creating and managing Terraform modules in Core Cloud
   annotations:
     github.com/project-slug: UKHomeOffice/core-cloud-terraform-modules
@@ -9,3 +9,4 @@ spec:
   type: service
   owner: core-cloud-devops
   lifecycle: experimental
+  system: Core-Cloud
