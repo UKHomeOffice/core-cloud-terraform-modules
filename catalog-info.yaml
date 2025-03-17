@@ -1,0 +1,11 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: core-cloud-terraform-modules-template
+  description: A repo for creating and managing Terraform modules in Core Cloud
+  annotations:
+    github.com/project-slug: UKHomeOffice/core-cloud-terraform-modules
+spec:
+  type: service
+  owner: UKHomeOffice
+  lifecycle: experimental
