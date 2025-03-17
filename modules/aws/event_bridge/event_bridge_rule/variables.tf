@@ -37,3 +37,9 @@ variable "role_actions" {
   description = "List of actions the IAM Role should allow"
   type        = list(string)
 }
+
+variable "source_event_bus_arn" {
+  type        = string
+  description = "The Arn of the source event bus when forwarding events"
+  default     = ""
+}
