@@ -7,5 +7,5 @@ metadata:
     github.com/project-slug: UKHomeOffice/core-cloud-terraform-modules
 spec:
   type: service
-  owner: UKHomeOffice
+  owner: core-cloud-devops
   lifecycle: experimental
