@@ -13,7 +13,7 @@ resource "aws_cloudwatch_event_bus" "custom_event_bus" {
 }
 
 data "aws_iam_policy_document" "this" {
-  count = var.source_event_bus_arn == "" ? 0 : 1
+  count = var.source_account_id == "" ? 0 : 1
   statement {
     sid    = "ActionsForResource"
     effect = "Allow"
@@ -21,13 +21,18 @@ data "aws_iam_policy_document" "this" {
       "events:PutEvents"
     ],
     resources = [
-      var.source_event_bus_arn
+      aws_cloudwatch_event_bus.custom_event_bus[0].arn
     ]
+
+    principals {
+      identifiers = [var.source_account_id]
+      type = "AWS"
+    }
   }
 }
 
 resource "aws_cloudwatch_event_bus_policy" "this" {
-  count          = var.source_event_bus_arn == "" ? 0 : 1
+  count          = var.source_account_id == "" ? 0 : 1
   event_bus_name = aws_cloudwatch_event_bus.custom_event_bus[0].name
   policy         = data.aws_iam_policy_document.this[0].json
 }

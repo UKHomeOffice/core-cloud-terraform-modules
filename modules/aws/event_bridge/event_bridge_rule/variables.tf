@@ -38,8 +38,8 @@ variable "role_actions" {
   type        = list(string)
 }
 
-variable "source_event_bus_arn" {
+variable "source_account_id" {
   type        = string
-  description = "The Arn of the source event bus when forwarding events"
+  description = "The source AWS Account ID where events are forwarded from"
   default     = ""
 }
