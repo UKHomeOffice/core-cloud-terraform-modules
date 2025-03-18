@@ -19,14 +19,15 @@ data "aws_iam_policy_document" "this" {
     effect = "Allow"
     actions = [
       "events:PutEvents"
-    ],
+    ]
+
     resources = [
       aws_cloudwatch_event_bus.custom_event_bus[0].arn
     ]
 
     principals {
       identifiers = [var.source_account_id]
-      type = "AWS"
+      type        = "AWS"
     }
   }
 }
@@ -61,9 +62,9 @@ resource "aws_iam_role" "eventbridge_role" {
     Version = "2012-10-17",
     Statement = [
       {
-        Effect = "Allow"
+        Effect    = "Allow"
         Principal = { Service = "events.amazonaws.com" }
-        Action = "sts:AssumeRole"
+        Action    = "sts:AssumeRole"
       }
     ]
   })
