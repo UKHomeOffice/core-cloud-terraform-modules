@@ -21,11 +21,17 @@ A good use-case for this module is to selectively forward security-hub findings 
     }
     ``` 
 
+## Requirements
+
+| Name | Version |
+|------|---------|
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | 5.81.0 |
+
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | n/a |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.81.0 |
 
 ## Modules
 
@@ -35,11 +41,13 @@ No modules.
 
 | Name | Type |
 |------|------|
-| [aws_cloudwatch_event_bus.custom_event_bus](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_event_bus) | resource |
-| [aws_cloudwatch_event_rule.event_rule](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_event_rule) | resource |
-| [aws_cloudwatch_event_target.event_target](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_event_target) | resource |
-| [aws_iam_role.eventbridge_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
-| [aws_iam_role_policy.eventbridge_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
+| [aws_cloudwatch_event_bus.custom_event_bus](https://registry.terraform.io/providers/hashicorp/aws/5.81.0/docs/resources/cloudwatch_event_bus) | resource |
+| [aws_cloudwatch_event_bus_policy.this](https://registry.terraform.io/providers/hashicorp/aws/5.81.0/docs/resources/cloudwatch_event_bus_policy) | resource |
+| [aws_cloudwatch_event_rule.event_rule](https://registry.terraform.io/providers/hashicorp/aws/5.81.0/docs/resources/cloudwatch_event_rule) | resource |
+| [aws_cloudwatch_event_target.event_target](https://registry.terraform.io/providers/hashicorp/aws/5.81.0/docs/resources/cloudwatch_event_target) | resource |
+| [aws_iam_role.eventbridge_role](https://registry.terraform.io/providers/hashicorp/aws/5.81.0/docs/resources/iam_role) | resource |
+| [aws_iam_role_policy.eventbridge_policy](https://registry.terraform.io/providers/hashicorp/aws/5.81.0/docs/resources/iam_role_policy) | resource |
+| [aws_iam_policy_document.this](https://registry.terraform.io/providers/hashicorp/aws/5.81.0/docs/data-sources/iam_policy_document) | data source |
 
 ## Inputs
 
@@ -52,6 +60,7 @@ No modules.
 | <a name="input_event_sources"></a> [event\_sources](#input\_event\_sources) | Event sources to match in the event pattern | `list(string)` | n/a | yes |
 | <a name="input_role_actions"></a> [role\_actions](#input\_role\_actions) | List of actions the IAM Role should allow | `list(string)` | n/a | yes |
 | <a name="input_role_name"></a> [role\_name](#input\_role\_name) | IAM Role name for EventBridge | `string` | n/a | yes |
+| <a name="input_source_account_id"></a> [source\_account\_id](#input\_source\_account\_id) | The source AWS Account ID where events are forwarded from | `string` | `""` | no |
 | <a name="input_target_arn"></a> [target\_arn](#input\_target\_arn) | ARN of the target for the event rule | `string` | n/a | yes |
 
 ## Outputs

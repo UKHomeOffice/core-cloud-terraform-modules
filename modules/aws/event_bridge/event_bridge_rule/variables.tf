@@ -37,3 +37,9 @@ variable "role_actions" {
   description = "List of actions the IAM Role should allow"
   type        = list(string)
 }
+
+variable "source_account_id" {
+  type        = string
+  description = "The source AWS Account ID where events are forwarded from"
+  default     = ""
+}
