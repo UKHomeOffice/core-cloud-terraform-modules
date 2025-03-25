@@ -9,4 +9,4 @@ spec:
   type: service
   owner: core-cloud-devops
   lifecycle: experimental
-  system: Core-Cloud
+  system: core-cloud
