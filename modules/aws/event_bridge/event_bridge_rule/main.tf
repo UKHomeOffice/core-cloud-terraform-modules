@@ -56,18 +56,28 @@ resource "aws_cloudwatch_event_target" "event_target" {
 }
 
 resource "aws_iam_role" "eventbridge_role" {
-  name = var.role_name
+  name               = var.role_name
+  assume_role_policy = data.aws_iam_policy_document.eventbridge_assume.json
+}
 
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17",
-    Statement = [
-      {
-        Effect    = "Allow"
-        Principal = { Service = "events.amazonaws.com" }
-        Action    = "sts:AssumeRole"
-      }
-    ]
-  })
+data "aws_iam_policy_document" "eventbridge_assume" {
+  statement {
+    effect  = "Allow"
+    actions = ["sts:AssumeRole"]
+
+    principals {
+      type        = "Service"
+      identifiers = ["events.amazonaws.com"]
+    }
+
+    condition {
+      test     = "StringEquals"
+      variable = "aws:SourceAccount"
+      values = [
+        data.aws_caller_identity.current.account_id
+      ]
+    }
+  }
 }
 
 resource "aws_iam_role_policy" "eventbridge_policy" {
