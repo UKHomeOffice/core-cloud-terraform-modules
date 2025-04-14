@@ -13,5 +13,5 @@ provider "aws" {
 
 resource "aws_kms_key" "default" {
   description         = var.description
-  enable_key_rotation = var.rotation_enabled
+  enable_key_rotation = true
 }
