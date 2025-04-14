@@ -44,10 +44,6 @@ resource "aws_iam_role_policy_attachment" "attach_api_gateway_policy" {
   role       = aws_iam_role.api_gateway_role.name
 }
 
-data "aws_caller_identity" "current" {}
-
-
-
 resource "aws_iam_policy" "api_gateway_cloudwatch_policy" {
   name        = "api-gateway-cloudwatch-policy"
   description = "Allows API Gateway to write logs to CloudWatch"
