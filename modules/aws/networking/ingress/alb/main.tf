@@ -42,7 +42,7 @@ resource "aws_lb" "tenant_alb" {
   enable_deletion_protection = true
 
   access_logs {
-    bucket  = local.logs_bucket
+    bucket  = var.access_logs_bucket
     prefix  = "${var.tenant}-internal"
     enabled = true
   }

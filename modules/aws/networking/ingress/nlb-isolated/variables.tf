@@ -23,3 +23,8 @@ variable "ingress_lb_group_name" {
   type        = string
 }
 
+variable "access_logs_bucket" {
+  type        = string
+  description = "S3 bucket for NLB access logs"
+}
+

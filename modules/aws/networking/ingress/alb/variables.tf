@@ -31,7 +31,7 @@ variable "account_id" {
 
 variable "public_subnet_filter" {
   type        = string
-  default = "cc-ingress-notprod-public*"
+  default     = "cc-ingress-notprod-public*"
   description = "Name tag filter for public subnets"
 }
 
@@ -45,4 +45,7 @@ variable "acm_certificate_arn" {
   description = "ACM Cert ARN"
 }
 
-
+variable "access_logs_bucket" {
+  type        = string
+  description = "S3 bucket for NLB access logs"
+}

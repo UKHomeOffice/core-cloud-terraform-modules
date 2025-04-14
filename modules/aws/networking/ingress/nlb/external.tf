@@ -6,7 +6,7 @@ resource "aws_lb" "external_nlb" {
   enable_deletion_protection = true
 
   access_logs {
-    bucket  = local.logs_bucket
+    bucket  = var.access_logs_bucket
     prefix  = "${var.tenant}-internal"
     enabled = true
   }

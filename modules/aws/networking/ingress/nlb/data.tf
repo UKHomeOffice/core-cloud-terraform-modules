@@ -1,6 +1,3 @@
-data "aws_region" "current" {}
-data "aws_caller_identity" "current" {}
-
 # Fetch VPC ID based on its Name tag
 data "aws_vpcs" "filtered_vpcs" {
   filter {
