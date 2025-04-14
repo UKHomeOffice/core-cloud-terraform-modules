@@ -15,6 +15,8 @@ resource "aws_api_gateway_method" "post" {
   resource_id   = aws_api_gateway_resource.proxy.id
   http_method   = "POST"
   authorization = "NONE"
+  // consider api key (depends on context/design)
+  // api_key_required = true 
 }
 
 resource "aws_api_gateway_integration" "post_dynamodb" {
@@ -88,6 +90,8 @@ resource "aws_api_gateway_method" "get" {
   resource_id   = aws_api_gateway_resource.proxy.id
   http_method   = "GET"
   authorization = "NONE"
+  // consider api key (depends on context/design)
+  // api_key_required = true
 }
 
 resource "aws_api_gateway_integration" "get_dynamodb" {
