@@ -77,6 +77,7 @@ data "aws_iam_policy_document" "lambda-assume" {
 resource "aws_cloudwatch_log_group" "this" {
   name              = "/aws/lambda/${var.name}"
   retention_in_days = var.log_retention_in_days
+  kms_key_id        = var.kms_key
 }
 
 resource "aws_iam_role_policy_attachment" "lambda" {
