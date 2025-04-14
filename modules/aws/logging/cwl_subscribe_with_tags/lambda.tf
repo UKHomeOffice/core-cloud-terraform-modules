@@ -100,7 +100,6 @@ data "aws_iam_policy_document" "lambda" {
       "logs:PutLogEvents"
     ]
 
-    # tfsec:ignore:aws-iam-no-policy-wildcards
     resources = [
       "arn:aws:logs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:*"
     ]
