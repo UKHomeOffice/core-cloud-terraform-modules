@@ -34,6 +34,7 @@ resource "aws_lambda_function" "this" {
       OPT_OUT     = var.opt_out_tag_value
     }
   }
+  kms_key_arn = aws.kms_key_arn
 }
 
 resource "aws_lambda_permission" "this" {

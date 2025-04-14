@@ -32,6 +32,6 @@ variable "log_retention_in_days" {
 }
 
 variable "kms_key" {
-  description = "arn of KMS key used to encrypt CloudWatch logs"
+  description = "arn of KMS key used"
   type        = string
 }

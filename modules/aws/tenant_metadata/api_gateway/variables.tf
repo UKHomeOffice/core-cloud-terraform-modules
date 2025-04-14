@@ -21,6 +21,6 @@ variable "aws_region" {
 }
 
 variable "kms_key" {
-  description = "arn of KMS key used to encrypt CloudWatch logs"
+  description = "arn of KMS key used"
   type        = string
 }
