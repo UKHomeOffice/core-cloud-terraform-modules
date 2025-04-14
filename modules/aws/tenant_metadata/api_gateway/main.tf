@@ -1,6 +1,10 @@
 resource "aws_api_gateway_rest_api" "api" {
   name        = "dynamodb-api"
   description = "API Gateway to interact with DynamoDB"
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_api_gateway_resource" "proxy" {
