@@ -33,6 +33,11 @@ resource "aws_iam_role" "logs_destination_role" {
           Service = "logs.${var.aws_region}.amazonaws.com"
         }
         Action = "sts:AssumeRole"
+        Condition = {
+          "StringEquals" = {
+            "aws:SourceAccount" = data.aws_caller_identity.current.account_id
+          }
+        }
       }
     ]
   })
