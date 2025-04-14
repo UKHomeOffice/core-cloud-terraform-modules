@@ -177,7 +177,9 @@ resource "aws_api_gateway_stage" "prod" {
   deployment_id = aws_api_gateway_deployment.deployment.id
   rest_api_id   = aws_api_gateway_rest_api.api.id
   stage_name    = "prod"
+  // consider enabling cache and xray 
   // cache_cluster_enabled = true
+  // xray_tracing_enabled = true
 
   access_log_settings {
     destination_arn = aws_cloudwatch_log_group.api_gateway_logs.arn
