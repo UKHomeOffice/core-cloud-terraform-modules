@@ -6,7 +6,7 @@ resource "aws_cloudwatch_log_destination" "cw_logs_destination" {
 
 resource "aws_cloudwatch_log_destination_policy" "cw_logs_destination_policy" {
   destination_name = aws_cloudwatch_log_destination.cw_logs_destination.name
-  access_policy    = jsonencode({
+  access_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
       {

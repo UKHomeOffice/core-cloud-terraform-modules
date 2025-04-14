@@ -10,6 +10,11 @@ resource "aws_iam_role" "api_gateway_role" {
       Principal = {
         Service = "apigateway.amazonaws.com"
       }
+      condition = {
+        "StringEquals" = {
+          "aws:SourceAccount" = data.aws_caller_identity.current.account_id
+        }
+      }
     }]
   })
 }
@@ -21,8 +26,11 @@ resource "aws_iam_policy" "api_gateway_dynamodb_policy" {
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [{
-      Effect   = "Allow"
-      Action   = ["dynamodb:Query", "dynamodb:PutItem"]
+      Effect = "Allow"
+      Action = [
+        "dynamodb:Query",
+        "dynamodb:PutItem"
+      ]
       Resource = [
         "arn:aws:dynamodb:${var.aws_region}:${data.aws_caller_identity.current.account_id}:table/${var.dynamodb_table_name}",
         "arn:aws:dynamodb:${var.aws_region}:${data.aws_caller_identity.current.account_id}:table/${var.dynamodb_table_name}/*"
