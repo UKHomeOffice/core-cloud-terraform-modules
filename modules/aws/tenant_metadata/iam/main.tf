@@ -10,7 +10,7 @@ resource "aws_iam_role" "api_gateway_role" {
       Principal = {
         Service = "apigateway.amazonaws.com"
       }
-      condition = {
+      Condition = {
         "StringEquals" = {
           "aws:SourceAccount" = data.aws_caller_identity.current.account_id
         }
