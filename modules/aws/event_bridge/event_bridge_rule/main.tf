@@ -56,44 +56,36 @@ resource "aws_cloudwatch_event_target" "event_target" {
 }
 
 resource "aws_iam_role" "eventbridge_role" {
-  name               = var.role_name
-  assume_role_policy = data.aws_iam_policy_document.eventbridge_assume.json
+  name = var.role_name
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect    = "Allow"
+        Principal = { Service = "events.amazonaws.com" }
+        Action    = "sts:AssumeRole"
+        Condition = {
+          "StringEquals" = {
+            "aws:SourceAccount" = data.aws_caller_identity.current.account_id
+          }
+        }
+      }
+    ]
+  })
 }
 
-data "aws_iam_policy_document" "eventbridge_assume" {
-  statement {
-    effect  = "Allow"
-    actions = ["sts:AssumeRole"]
+resource "aws_iam_role_policy" "eventbridge_policy" {
+  role = aws_iam_role.eventbridge_role.id
 
-    principals {
-      type        = "Service"
-      identifiers = ["events.amazonaws.com"]
-    }
-
-    condition {
-      test     = "StringEquals"
-      variable = "aws:SourceAccount"
-      values = [
-        data.aws_caller_identity.current.account_id
-      ]
-    }
-  }
-}
-
-resource "aws_iam_role_policy_attachment" "eventbridge" {
-  role       = aws_iam_role.eventbridge_role.name
-  policy_arn = aws_iam_policy.eventbridge.arn
-}
-
-resource "aws_iam_policy" "eventbridge" {
-  name   = var.role_name
-  policy = data.aws_iam_policy_document.eventbridge.json
-}
-
-data "aws_iam_policy_document" "eventbridge" {
-  statement {
-    effect    = "allow"
-    actions   = var.role_actions
-    resources = [var.target_arn]
-  }
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect   = "Allow"
+        Action   = var.role_actions
+        Resource = var.target_arn
+      }
+    ]
+  })
 }
