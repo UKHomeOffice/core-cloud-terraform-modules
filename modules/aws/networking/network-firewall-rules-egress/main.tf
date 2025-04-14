@@ -52,6 +52,11 @@ locals {
 resource "aws_networkfirewall_firewall_policy" "policy" {
   name = var.network_firewall_policy_name
 
+  encryption_configuration {
+    key_id = var.kms_key
+    type   = "CUSTOMER_KMS"
+  }
+
   firewall_policy {
     # Reference AWS managed or custom stateful rule groups
 
