@@ -12,7 +12,7 @@ data "aws_iam_policy_document" "cmek" {
       identifiers = ["arn:aws:iam::${data.aws_caller_identity.self.account_id}:root"]
     }
     actions   = ["kms:*"]
-    resources = [aws_kms_key.cmek.arn]
+    resources = ["*"]
   }
 
   statement {
@@ -23,7 +23,7 @@ data "aws_iam_policy_document" "cmek" {
       identifiers = ["arn:aws:iam::${data.aws_caller_identity.self.account_id}:role/AWSAccelerator-Terragrunt-Bootstrapping-Apply-Role"]
     }
     actions   = ["kms:CreateAlias"]
-    resources = [aws_kms_key.cmek.arn]
+    resources = ["*"]
   }
 
   statement {
@@ -42,7 +42,7 @@ data "aws_iam_policy_document" "cmek" {
       "kms:GenerateDataKey*",
       "kms:GenerateDataKeyWithoutPlaintext",
     ]
-    resources = [aws_kms_key.cmek.arn]
+    resources = ["*"]
     condition {
       test     = "ForAnyValue:StringLike"
       values   = ["${var.org_id}/*"]
@@ -62,7 +62,7 @@ data "aws_iam_policy_document" "cmek" {
       "kms:ListGrants",
       "kms:RevokeGrant",
     ]
-    resources = [aws_kms_key.cmek.arn]
+    resources = ["*"]
     condition {
       test     = "Bool"
       variable = "kms:GrantIsForAWSResource"
@@ -76,8 +76,6 @@ data "aws_iam_policy_document" "cmek" {
   }
 }
 
-
-#
 resource "aws_kms_key" "cmek" {
   description             = "CMK for Backup Vault ${var.name}"
   enable_key_rotation     = var.kms_key_enable_rotation
