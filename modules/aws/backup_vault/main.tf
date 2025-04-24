@@ -1,10 +1,4 @@
 # refactored modules to create CMEK for backup-vault
-locals {
-  effective_kms_alias = var.kms_key_alias != "" 
-    ? var.kms_key_alias 
-    : "${var.name}-key"
-}
-
 data "aws_caller_identity" "self" {}
 
 data "aws_iam_policy_document" "cmek" {
@@ -93,7 +87,7 @@ resource "aws_kms_key" "cmek" {
 }
 
 resource "aws_kms_alias" "cmek_alias" {
-  name          = "alias/${local.effective_kms_alias}"
+  name          = "alias/${var.kms_key_alias != "" ? var.kms_key_alias : var.name}-key"
   target_key_id = aws_kms_key.cmek.key_id
 }
 
