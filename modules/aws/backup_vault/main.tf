@@ -1,12 +1,39 @@
 # refactored modules to create CMEK for backup-vault
+locals {
+  effective_kms_alias = var.kms_key_alias != "" 
+    ? var.kms_key_alias 
+    : "${var.name}-key"
+}
 
 data "aws_caller_identity" "self" {}
 
 data "aws_iam_policy_document" "cmek" {
-   version = "2012-10-17"
+  version = "2012-10-17"
 
-   statement {
-    sid    = "Allow use by Backup account"
+  statement {
+    sid    = "Enable IAM User Permissions"
+    effect = "Allow"
+    principals {
+      type        = "AWS"
+      identifiers = ["arn:aws:iam::${data.aws_caller_identity.self.account_id}:root"]
+    }
+    actions   = ["kms:*"]
+    resources = [aws_kms_key.cmek.arn]
+  }
+
+  statement {
+    sid    = "Allow alias creation during setup"
+    effect = "Allow"
+    principals {
+      type        = "AWS"
+      identifiers = ["arn:aws:iam::${data.aws_caller_identity.self.account_id}:role/AWSAccelerator-Terragrunt-Bootstrapping-Apply-Role"]
+    }
+    actions   = ["kms:CreateAlias"]
+    resources = [aws_kms_key.cmek.arn]
+  }
+
+  statement {
+    sid    = "Allow use of the key by authorized Backup vault account"
     effect = "Allow"
     principals {
       type        = "AWS"
@@ -21,10 +48,42 @@ data "aws_iam_policy_document" "cmek" {
       "kms:GenerateDataKey*",
       "kms:GenerateDataKeyWithoutPlaintext",
     ]
-    resources = [ aws_kms_key.cmek.arn ]
+    resources = [aws_kms_key.cmek.arn]
+    condition {
+      test     = "ForAnyValue:StringLike"
+      values   = ["${var.org_id}/*"]
+      variable = "aws:PrincipalOrgPaths"
+    }
+  }
+
+  statement {
+    sid    = "Allow attachment of persistent resources"
+    effect = "Allow"
+    principals {
+      type        = "AWS"
+      identifiers = ["*"]
+    }
+    actions = [
+      "kms:CreateGrant",
+      "kms:ListGrants",
+      "kms:RevokeGrant",
+    ]
+    resources = [aws_kms_key.cmek.arn]
+    condition {
+      test     = "Bool"
+      variable = "kms:GrantIsForAWSResource"
+      values   = ["true"]
+    }
+    condition {
+      test     = "ForAnyValue:StringLike"
+      values   = ["${var.org_id}/*"]
+      variable = "aws:PrincipalOrgPaths"
+    }
   }
 }
 
+
+#
 resource "aws_kms_key" "cmek" {
   description             = "CMK for Backup Vault ${var.name}"
   enable_key_rotation     = var.kms_key_enable_rotation
@@ -34,7 +93,7 @@ resource "aws_kms_key" "cmek" {
 }
 
 resource "aws_kms_alias" "cmek_alias" {
-  name          = "alias/${var.kms_key_alias}"
+  name          = "alias/${local.effective_kms_alias}"
   target_key_id = aws_kms_key.cmek.key_id
 }
 

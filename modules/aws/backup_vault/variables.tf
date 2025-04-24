@@ -25,9 +25,9 @@ variable "backup_account_id" {
 }
 
 variable "kms_key_alias" {
-  description = "Alias name (without the `alias/` prefix) for the new CMK"
+  description = "Optional: custom alias (without the 'alias/' prefix). If empty, defaults to '<name>-key'."
   type        = string
-  default     = "${var.name}-key"
+  default     = ""
 }
 
 variable "kms_key_enable_rotation" {
