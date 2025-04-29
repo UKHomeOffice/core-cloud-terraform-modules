@@ -34,6 +34,7 @@ resource "aws_lambda_function" "this" {
       OPT_OUT     = var.opt_out_tag_value
     }
   }
+  kms_key_arn = aws.kms_key_arn
 }
 
 resource "aws_lambda_permission" "this" {
@@ -62,6 +63,14 @@ data "aws_iam_policy_document" "lambda-assume" {
     }
 
     actions = ["sts:AssumeRole"]
+
+    condition {
+      test     = "StringEquals"
+      variable = "aws:SourceAccount"
+      values = [
+        data.aws_caller_identity.current.account_id
+      ]
+    }
   }
 }
 
@@ -69,6 +78,7 @@ data "aws_iam_policy_document" "lambda-assume" {
 resource "aws_cloudwatch_log_group" "this" {
   name              = "/aws/lambda/${var.name}"
   retention_in_days = var.log_retention_in_days
+  kms_key_id        = var.kms_key
 }
 
 resource "aws_iam_role_policy_attachment" "lambda" {
@@ -92,9 +102,8 @@ data "aws_iam_policy_document" "lambda" {
       "logs:PutLogEvents"
     ]
 
-    # tfsec:ignore:aws-iam-no-policy-wildcards
     resources = [
-      "*"
+      "arn:aws:logs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:*"
     ]
   }
 }
@@ -107,7 +116,7 @@ resource "aws_iam_role" "lambda_code" {
 
 data "aws_iam_policy_document" "lambda_code_assume" {
   statement {
-    effect = "Allow"
+    effect  = "Allow"
     actions = ["sts:AssumeRole"]
 
     principals {

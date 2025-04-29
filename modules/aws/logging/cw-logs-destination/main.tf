@@ -6,7 +6,7 @@ resource "aws_cloudwatch_log_destination" "cw_logs_destination" {
 
 resource "aws_cloudwatch_log_destination_policy" "cw_logs_destination_policy" {
   destination_name = aws_cloudwatch_log_destination.cw_logs_destination.name
-  access_policy    = jsonencode({
+  access_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
       {
@@ -33,6 +33,11 @@ resource "aws_iam_role" "logs_destination_role" {
           Service = "logs.${var.aws_region}.amazonaws.com"
         }
         Action = "sts:AssumeRole"
+        Condition = {
+          "StringEquals" = {
+            "aws:SourceAccount" = data.aws_caller_identity.current.account_id
+          }
+        }
       }
     ]
   })

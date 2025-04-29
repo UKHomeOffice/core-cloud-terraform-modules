@@ -17,3 +17,8 @@ variable "tenant" {
   description = "The tenant name"
   type        = string
 }
+
+variable "access_logs_bucket" {
+  type        = string
+  description = "S3 bucket for NLB access logs"
+}

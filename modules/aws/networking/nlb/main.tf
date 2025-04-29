@@ -1,12 +1,15 @@
 resource "aws_lb" "lb" {
-  name               = var.name
-  internal           = var.load_balancer_internal
-  load_balancer_type = var.load_balancer_type
-  subnets            = var.subnets
-  security_groups    = [aws_security_group.sg.id]
+  name                             = var.name
+  internal                         = var.load_balancer_internal
+  load_balancer_type               = var.load_balancer_type
+  subnets                          = var.subnets
+  security_groups                  = [aws_security_group.sg.id]
   enable_cross_zone_load_balancing = var.enable_cross_zone_load_balancing
   enable_deletion_protection       = var.enable_deletion_protection
   enable_http2                     = var.enable_http2
+  // consider ALBs dropping HTTP headers that dont conform to RFC specs
+  // helps prevent header injection attacks
+  //drop_invalid_header_fields = true
 
   access_logs {
     bucket  = var.access_logs_bucket
@@ -23,20 +26,20 @@ resource "aws_lb_listener" "https" {
   port              = 443
   protocol          = "TLS"
 
-  ssl_policy        = "ELBSecurityPolicy-TLS-1-2-2017-01"
-  certificate_arn   = var.certificate_arn
+  ssl_policy      = "ELBSecurityPolicy-TLS-1-2-2017-01"
+  certificate_arn = var.certificate_arn
 
   default_action {
-    type = "forward"
+    type             = "forward"
     target_group_arn = aws_lb_target_group.lb_target_group.arn
   }
 }
 
 resource "aws_lb_target_group" "lb_target_group" {
-  name     = "${var.prefix}-tg"  # name can't be longer than 32 chars
-  port     = var.tg_port     # "80"
-  protocol = var.tg_protocol # "TCP"
-  vpc_id   = var.vpc_id
+  name        = "${var.prefix}-tg" # name can't be longer than 32 chars
+  port        = var.tg_port        # "80"
+  protocol    = var.tg_protocol    # "TCP"
+  vpc_id      = var.vpc_id
   target_type = var.target_type
 
   health_check {
@@ -58,7 +61,7 @@ resource "aws_lb_target_group_attachment" "instance_target_group_attachment" {
   for_each = var.target_type == "instance" ? var.instance_targets : {}
 
   target_group_arn = aws_lb_target_group.lb_target_group.arn
-  target_id        = each.key          # each.key is the instance ID
+  target_id        = each.key # each.key is the instance ID
   port             = 80
 }
 
