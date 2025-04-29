@@ -3,8 +3,22 @@ variable "region" {
   description = "AWS region to operate in"
 }
 
-variable "audit_account_id" {
+variable "dev_lza_mgmt_id" {
   type        = string
-  description = "Audit (delegated admin) AWS Account ID"
+  description = "Management account ID for dev-lza"
 }
 
+variable "prod_lza_mgmt_id" {
+  type        = string
+  description = "Management account ID for prod-lza"
+}
+
+variable "dev_audit_account_id" {
+  type        = string
+  description = "Audit account ID for dev-lza"
+}
+
+variable "prod_audit_account_id" {
+  type        = string
+  description = "Audit account ID for prod-lza"
+}
