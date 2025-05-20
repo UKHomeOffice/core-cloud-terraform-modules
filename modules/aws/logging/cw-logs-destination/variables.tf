@@ -10,8 +10,8 @@ variable "destination_name" {
 }
 
 variable "source_account_id" {
-  description = "AWS Account ID of the source (management account X)"
-  type        = string
+  type = list(string)
+  description = "List of AWS account IDs allowed to put subscription filters"
 }
 
 variable "firehose_arn" {
