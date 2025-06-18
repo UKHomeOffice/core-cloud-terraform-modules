@@ -210,7 +210,9 @@ resource "aws_s3_bucket_replication_configuration" "cur_bucket_replication_rule"
   rule {
     id = var.replication_rule
 
-    filter {}
+    filter {
+      prefix = ""
+    }
 
     destination {
       bucket        = var.destination_bucket

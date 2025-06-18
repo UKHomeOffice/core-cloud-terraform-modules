@@ -17,7 +17,7 @@ variable "certificate_arn" {
 
 variable "target_type" {
   type        = string
-  description = "Allowed values: ip or instance or alb"   
+  description = "Allowed values: ip or instance or alb"
 }
 
 variable "tg_port" {
@@ -78,39 +78,40 @@ variable "nlb_ips" {
 
 variable "enable_deletion_protection" {
   type        = string
-  description = "enable_deletion_protection - true or false"  
+  description = "enable_deletion_protection - true or false"
+  default     = true
 }
 
 variable "enable_cross_zone_load_balancing" {
   type        = string
-  description = "enable_cross_zone_load_balancing - true or false"  
+  description = "enable_cross_zone_load_balancing - true or false"
 }
 
 variable "enable_http2" {
   type        = string
-  description = "enable_http2 - true or false"  
+  description = "enable_http2 - true or false"
 }
 
 # SG related 
 
 variable "ingress_rules" {
   description = "A list of ingress rules"
-  type        = list(object({
+  type = list(object({
     from_port   = number
     to_port     = number
     protocol    = string
-    cidr_blocks  = list(string)
+    cidr_blocks = list(string)
     description = string
   }))
 }
 
 variable "egress_rules" {
   description = "A list of egress rules"
-  type        = list(object({
+  type = list(object({
     from_port   = number
     to_port     = number
     protocol    = string
-    cidr_blocks  = list(string)
+    cidr_blocks = list(string)
     description = string
   }))
 }

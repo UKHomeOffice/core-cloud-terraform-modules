@@ -30,3 +30,8 @@ variable "log_retention_in_days" {
   description = "The number of days retention for lambda CloudWatch log group."
   default     = 731
 }
+
+variable "kms_key" {
+  description = "arn of KMS key used"
+  type        = string
+}

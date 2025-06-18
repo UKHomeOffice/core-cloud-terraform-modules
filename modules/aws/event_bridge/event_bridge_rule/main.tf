@@ -65,6 +65,11 @@ resource "aws_iam_role" "eventbridge_role" {
         Effect    = "Allow"
         Principal = { Service = "events.amazonaws.com" }
         Action    = "sts:AssumeRole"
+        Condition = {
+          "StringEquals" = {
+            "aws:SourceAccount" = data.aws_caller_identity.current.account_id
+          }
+        }
       }
     ]
   })
