@@ -3,6 +3,12 @@ resource "aws_networkfirewall_rule_group" "allow_domains_for_nonprod_01" {
   name        = "egress-allowed-domainlist-to-internet-01"
   description = "Allow egress internet access for Non-Production environment"
   type        = "STATEFUL"
+
+  encryption_configuration {
+    key_id = var.kms_key
+    type   = "CUSTOMER_KMS"
+  }
+
   rule_group {
     stateful_rule_options {
       rule_order = "STRICT_ORDER"

@@ -1,22 +1,27 @@
 
 # Internal NLB
 resource "aws_lb" "internal_nlb" {
-  name               = "${var.tenant}-internal"
-  internal           = true
-  load_balancer_type = "network"
-  enable_deletion_protection = false
+  name                       = "${var.tenant}-internal"
+  internal                   = true
+  load_balancer_type         = "network"
+  enable_deletion_protection = true
 
-
-  subnet_mapping {
-    subnet_id     = data.aws_subnets.filtered_subnets.ids[0]
+  access_logs {
+    bucket  = var.access_logs_bucket
+    prefix  = "${var.tenant}-internal"
+    enabled = true
   }
 
   subnet_mapping {
-    subnet_id     = data.aws_subnets.filtered_subnets.ids[1]
-      }
+    subnet_id = data.aws_subnets.filtered_subnets.ids[0]
+  }
 
   subnet_mapping {
-    subnet_id     = data.aws_subnets.filtered_subnets.ids[2]
+    subnet_id = data.aws_subnets.filtered_subnets.ids[1]
+  }
+
+  subnet_mapping {
+    subnet_id = data.aws_subnets.filtered_subnets.ids[2]
   }
 
   # Attach the security group

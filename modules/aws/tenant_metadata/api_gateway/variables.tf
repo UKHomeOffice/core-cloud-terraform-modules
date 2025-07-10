@@ -17,5 +17,10 @@ variable "api_gateway_role_arn" {
 variable "aws_region" {
   description = "The ARN of the API Gateway IAM role"
   type        = string
-  default = "eu-west-2"
+  default     = "eu-west-2"
+}
+
+variable "kms_key" {
+  description = "arn of KMS key used"
+  type        = string
 }

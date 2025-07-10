@@ -39,3 +39,8 @@ variable "aws_managed_rule_groups" {
   description = "Network Firewall - A list of AWS managed stateful rule group arns"
   type        = string
 }
+
+variable "kms_key" {
+  description = "arn of the AWS KMS key used to encrypt Network Firewall"
+  type        = string
+}

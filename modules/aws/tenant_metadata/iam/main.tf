@@ -10,6 +10,11 @@ resource "aws_iam_role" "api_gateway_role" {
       Principal = {
         Service = "apigateway.amazonaws.com"
       }
+      Condition = {
+        "StringEquals" = {
+          "aws:SourceAccount" = data.aws_caller_identity.current.account_id
+        }
+      }
     }]
   })
 }
@@ -21,8 +26,11 @@ resource "aws_iam_policy" "api_gateway_dynamodb_policy" {
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [{
-      Effect   = "Allow"
-      Action   = ["dynamodb:Query", "dynamodb:PutItem"]
+      Effect = "Allow"
+      Action = [
+        "dynamodb:Query",
+        "dynamodb:PutItem"
+      ]
       Resource = [
         "arn:aws:dynamodb:${var.aws_region}:${data.aws_caller_identity.current.account_id}:table/${var.dynamodb_table_name}",
         "arn:aws:dynamodb:${var.aws_region}:${data.aws_caller_identity.current.account_id}:table/${var.dynamodb_table_name}/*"
@@ -35,10 +43,6 @@ resource "aws_iam_role_policy_attachment" "attach_api_gateway_policy" {
   policy_arn = aws_iam_policy.api_gateway_dynamodb_policy.arn
   role       = aws_iam_role.api_gateway_role.name
 }
-
-data "aws_caller_identity" "current" {}
-
-
 
 resource "aws_iam_policy" "api_gateway_cloudwatch_policy" {
   name        = "api-gateway-cloudwatch-policy"
@@ -55,7 +59,7 @@ resource "aws_iam_policy" "api_gateway_cloudwatch_policy" {
         "logs:DescribeLogGroups",
         "logs:DescribeLogStreams"
       ]
-      Resource = "*"
+      Resource = "arn:aws:logs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:*"
     }]
   })
 }

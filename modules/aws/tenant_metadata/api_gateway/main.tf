@@ -1,6 +1,10 @@
 resource "aws_api_gateway_rest_api" "api" {
   name        = "dynamodb-api"
   description = "API Gateway to interact with DynamoDB"
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_api_gateway_resource" "proxy" {
@@ -15,6 +19,8 @@ resource "aws_api_gateway_method" "post" {
   resource_id   = aws_api_gateway_resource.proxy.id
   http_method   = "POST"
   authorization = "NONE"
+  // consider api key (depends on context/design)
+  // api_key_required = true 
 }
 
 resource "aws_api_gateway_integration" "post_dynamodb" {
@@ -88,6 +94,8 @@ resource "aws_api_gateway_method" "get" {
   resource_id   = aws_api_gateway_resource.proxy.id
   http_method   = "GET"
   authorization = "NONE"
+  // consider api key (depends on context/design)
+  // api_key_required = true
 }
 
 resource "aws_api_gateway_integration" "get_dynamodb" {
@@ -170,22 +178,27 @@ resource "aws_api_gateway_deployment" "deployment" {
 ### Logging ###
 resource "aws_cloudwatch_log_group" "api_gateway_logs" {
   name              = "/aws/apigateway/access-logs"
-  retention_in_days = 7
+  retention_in_days = 90
+  kms_key_id        = var.kms_key
 }
 
 resource "aws_api_gateway_stage" "prod" {
   deployment_id = aws_api_gateway_deployment.deployment.id
   rest_api_id   = aws_api_gateway_rest_api.api.id
   stage_name    = "prod"
+  // consider enabling cache and xray 
+  // cache_cluster_enabled = true
+  // xray_tracing_enabled = true
 
   access_log_settings {
     destination_arn = aws_cloudwatch_log_group.api_gateway_logs.arn
-    format          = jsonencode({
-      requestId  = "$context.requestId"
-      sourceIp   = "$context.identity.sourceIp"
-      userAgent  = "$context.identity.userAgent"
+    format = jsonencode({
+      requestId   = "$context.requestId"
+      sourceIp    = "$context.identity.sourceIp"
+      userAgent   = "$context.identity.userAgent"
       requestTime = "$context.requestTime"
-      status     = "$context.status"
+      status      = "$context.status"
     })
   }
 }
+
