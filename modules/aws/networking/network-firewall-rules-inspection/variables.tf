@@ -34,3 +34,8 @@ variable "aws_managed_rule_groups" {
     description = "Network Firewall - A list of AWS maanged stateful rule group arns"
     type        = string  
 }
+
+variable "rules_vars_file" {
+  type        = string
+  description = "Raw contents of rule_vars.txt"
+}
