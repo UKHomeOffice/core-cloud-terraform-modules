@@ -40,7 +40,7 @@ variable "aws_managed_rule_groups" {
   type        = string
 }
 
-variable "analysis_types" {
+variable "enabled_analysis_types" {
   description = "Types of analysis metrics (TLS_SNI, HTTP_HOST) to collect"
   type        = list(string)
   default     = []
