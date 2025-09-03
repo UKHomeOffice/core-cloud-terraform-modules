@@ -39,3 +39,9 @@ variable "aws_managed_rule_groups" {
   description = "Network Firewall - A list of AWS managed stateful rule group arns"
   type        = string
 }
+
+variable "analysis_types" {
+  description = "Types of analysis metrics (TLS_SNI, HTTP_HOST) to collect"
+  type        = list(string)
+  default     = []
+}
