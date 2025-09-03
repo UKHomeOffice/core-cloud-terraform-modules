@@ -15,9 +15,10 @@ import {
 }
 
 resource "aws_networkfirewall_firewall" "existing_firewall" {
-  name                = var.network_firewall_name ## Existing firewall name
-  vpc_id              = var.vpc_id                ## Use the existing VPC ID
-  firewall_policy_arn = aws_networkfirewall_firewall_policy.policy.arn
+  name                   = var.network_firewall_name ## Existing firewall name
+  vpc_id                 = var.vpc_id                ## Use the existing VPC ID
+  firewall_policy_arn    = aws_networkfirewall_firewall_policy.policy.arn
+  enabled_analysis_types = var.enabled_analysis_types
 
   # Subnet mappings (use the existing subnets here)
   dynamic "subnet_mapping" {
