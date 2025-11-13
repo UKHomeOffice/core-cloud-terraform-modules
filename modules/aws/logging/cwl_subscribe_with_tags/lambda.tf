@@ -1,7 +1,7 @@
 data "archive_file" "this" {
   type        = "zip"
   output_path = "${path.module}/create-sub-filter.zip"
-  source_file = "create-sub-filter/main.py"
+  source_file = "${path.module}/create-sub-filter/main.py"
 }
 
 resource "aws_lambda_function" "this" {
@@ -84,13 +84,18 @@ resource "aws_iam_policy" "lambda" {
 data "aws_iam_policy_document" "lambda" {
   statement {
     effect = "Allow"
-    actions = [
-      "logs:PutSubscriptionFilter",
-      "logs:DeleteSubscriptionFilter",
-      "logs:CreateLogGroup",
-      "logs:CreateLogStream",
-      "logs:PutLogEvents"
-    ]
+    actions = distinct(
+      concat(
+        [
+          "logs:PutSubscriptionFilter",
+          "logs:DeleteSubscriptionFilter",
+          "logs:CreateLogGroup",
+          "logs:CreateLogStream",
+          "logs:PutLogEvents"
+        ], 
+        var.lambda_function_optional_additional_permissions
+      )
+    )
 
     # tfsec:ignore:aws-iam-no-policy-wildcards
     resources = [
@@ -132,9 +137,14 @@ resource "aws_iam_policy" "lambda_code" {
 data "aws_iam_policy_document" "lambda_code" {
   statement {
     effect = "Allow"
-    actions = [
-      "logs:PutSubscriptionFilter"
-    ]
+    actions = distinct(
+      concat(
+        [
+          "logs:PutSubscriptionFilter"
+        ],
+        var.lambda_code_optional_additional_permissions
+      )
+    )
 
     # tfsec:ignore:aws-iam-no-policy-wildcards
     resources = [
