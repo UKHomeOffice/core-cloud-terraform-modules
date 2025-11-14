@@ -30,3 +30,15 @@ variable "log_retention_in_days" {
   description = "The number of days retention for lambda CloudWatch log group."
   default     = 731
 }
+
+variable "lambda_code_optional_additional_permissions" {
+  type = list(string)
+  description = "Optional additional permissions to add to the default lambda_code iam policy."
+  default = []
+}
+
+variable "lambda_function_optional_additional_permissions" {
+  type = list(string)
+  description = "Optional additional permissions to add to the default lambda_function iam policy."
+  default = []
+}
