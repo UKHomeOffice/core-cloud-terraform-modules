@@ -22,44 +22,7 @@ permissions:
 
 jobs:
   checkov-scan:
-    name: Checkov Scan (SARIF filtered)
-    runs-on: ubuntu-latest
-
-    permissions:
-      contents: read
-      security-events: write
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Install Checkov
-        run: |
-          python3 -m pip install --upgrade pip
-          python3 -m pip install checkov
-
-      - name: Run Checkov (generate SARIF)
-        run: |
-          # Run Checkov against the repo. Configuration from .checkov.yaml
-          # will still be honored. Checkov will create a directory at the
-          # output path and place the SARIF file inside it.
-          checkov -d . \
-            --quiet \
-            --soft-fail \
-            --output sarif \
-            --output-file-path checkov-results.sarif
-
-      - name: Filter test fixtures out of SARIF
-        run: |
-          SARIF_FILE="checkov-results.sarif/results_sarif.sarif"
-          echo "Filtering SARIF file at: $SARIF_FILE"
-          python3 scripts/filter-sarif.py "$SARIF_FILE"
-
-      - name: Upload SARIF file (Source Code)
-        uses: github/codeql-action/upload-sarif@v4
-        with:
-          sarif_file: checkov-results.sarif/results_sarif.sarif
-          category: checkov-scan
+    uses: UKHomeOffice/core-cloud-workflow-checkov-sast-scan/.github/workflows/checkov-scan-base.yaml@1.8.0
 
   sonarqube-scanner:
     name: SonarQube Code Analysis
