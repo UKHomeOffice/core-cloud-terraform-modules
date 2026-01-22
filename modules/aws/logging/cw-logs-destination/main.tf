@@ -50,6 +50,7 @@ resource "aws_cloudwatch_log_destination" "cw_logs_destination" {
 resource "aws_cloudwatch_log_destination_policy" "cw_logs_destination_policy" {
   destination_name = aws_cloudwatch_log_destination.cw_logs_destination.name
   access_policy    = jsonencode(local.access_policy)
+  tags             = var.tags
 }
 
 resource "aws_iam_role" "logs_destination_role" {
