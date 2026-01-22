@@ -10,29 +10,29 @@ resource "aws_cloudwatch_log_destination_policy" "cw_logs_destination_policy" {
     Version = "2012-10-17"
     Statement = [
       {
-        Effect = "Allow"
-        Principal = {
-          AWS = var.source_account_id
+
+        Sid        = "AllowOrgAccountsToSubscribe"
+        Effect     = "Allow"
+        Principal  = "*"
+        Action     = "logs:PutSubscriptionFilter"
+        Resource   = aws_cloudwatch_log_destination.cw_logs_destination.arn
+        Condition = {
+          StringEquals = {
+            "aws:PrincipalOrgID" = var.organization_id
+          }
         }
-        Action   = "logs:PutSubscriptionFilter"
-        Resource = aws_cloudwatch_log_destination.cw_logs_destination.arn
       }
     ]
-  })
-}
-
-resource "aws_iam_role" "logs_destination_role" {
-  name = "CloudWatchLogsDestinationRole"
-
-  assume_role_policy = jsonencode({
+  }) : jsonencode({
     Version = "2012-10-17"
     Statement = [
       {
         Effect = "Allow"
         Principal = {
-          Service = "logs.${var.aws_region}.amazonaws.com"
-        }
-        Action = "sts:AssumeRole"
+          AWS = var.source_account_id
+          }
+        Action   = "logs:PutSubscriptionFilter"
+        Resource = aws_cloudwatch_log_destination.cw_logs_destination.arn
       }
     ]
   })
