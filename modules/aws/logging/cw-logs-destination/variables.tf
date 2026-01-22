@@ -24,3 +24,9 @@ variable "organization_id" {
   type        = string
   default     = null
 }
+
+variable "tags" {
+  description = "Tags to apply to the resources."
+  type        = map(string)
+  default     = {}
+}

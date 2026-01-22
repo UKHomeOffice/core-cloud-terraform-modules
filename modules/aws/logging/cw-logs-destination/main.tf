@@ -44,6 +44,7 @@ resource "aws_cloudwatch_log_destination" "cw_logs_destination" {
   name       = var.destination_name
   role_arn   = aws_iam_role.logs_destination_role.arn
   target_arn = var.firehose_arn
+  tags       = var.tags
 }
 
 resource "aws_cloudwatch_log_destination_policy" "cw_logs_destination_policy" {
@@ -53,6 +54,7 @@ resource "aws_cloudwatch_log_destination_policy" "cw_logs_destination_policy" {
 
 resource "aws_iam_role" "logs_destination_role" {
   name = "CloudWatchLogsDestinationRole"
+  tags = var.tags
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
