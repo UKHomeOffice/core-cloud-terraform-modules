@@ -18,3 +18,9 @@ variable "firehose_arn" {
   description = "ARN of the existing Firehose delivery stream"
   type        = string
 }
+
+variable "organization_id" {
+  description = "AWS Organization ID - allows any account in the org to subscribe"
+  type        = string
+  default     = null
+}
