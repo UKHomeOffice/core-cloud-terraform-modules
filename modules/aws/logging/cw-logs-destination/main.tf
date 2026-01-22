@@ -1,6 +1,4 @@
 locals {
-  destination_arn = aws_cloudwatch_log_destination.cw_logs_destination.arn
-
   # Org-wide policy — allows any account in the organization to create subscription filters
   org_policy = {
     Version = "2012-10-17"
@@ -10,7 +8,7 @@ locals {
         Effect    = "Allow"
         Principal = "*"
         Action    = "logs:PutSubscriptionFilter"
-        Resource  = local.destination_arn
+        Resource  = aws_cloudwatch_log_destination.cw_logs_destination.arn
         Condition = {
           StringEquals = {
             "aws:PrincipalOrgID" = var.organization_id
@@ -20,21 +18,24 @@ locals {
     ]
   }
 
-  # Legacy single-account policy
+  # Account-based policy (legacy) — allows specific account IDs only
   account_policy = {
     Version = "2012-10-17"
     Statement = [
       {
-        Sid       = "AllowSourceAccountToSubscribe"
         Effect    = "Allow"
         Principal = {
           AWS = var.source_account_id
         }
         Action   = "logs:PutSubscriptionFilter"
-        Resource = local.destination_arn
+        Resource = aws_cloudwatch_log_destination.cw_logs_destination.arn
       }
     ]
   }
+
+  # Choose which policy to use
+  access_policy = var.organization_id != null ? local.org_policy : local.account_policy
+}
 
   # Select policy based on whether organization_id is provided
   access_policy = var.organization_id != null ? local.org_policy : local.account_policy
@@ -50,7 +51,7 @@ resource "aws_cloudwatch_log_destination" "cw_logs_destination" {
 resource "aws_cloudwatch_log_destination_policy" "cw_logs_destination_policy" {
   destination_name = aws_cloudwatch_log_destination.cw_logs_destination.name
   access_policy    = jsonencode(local.access_policy)
-  tags             = var.tags
+  var              = var.tags
 }
 
 resource "aws_iam_role" "logs_destination_role" {
