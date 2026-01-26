@@ -1,6 +1,6 @@
 locals {
   # Org-wide policy — allows any account in the organization to create subscription filters
-  org_policy = {
+  org_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
       {
@@ -16,10 +16,10 @@ locals {
         }
       }
     ]
-  }
+  })
 
   # Account-based policy (legacy) — allows specific account IDs only
-  account_policy = {
+  account_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
       {
@@ -31,7 +31,7 @@ locals {
         Resource = aws_cloudwatch_log_destination.cw_logs_destination.arn
       }
     ]
-  }
+  })
 
   # Choose which policy to use
   access_policy = var.organization_id != null ? local.org_policy : local.account_policy
@@ -46,7 +46,7 @@ resource "aws_cloudwatch_log_destination" "cw_logs_destination" {
 
 resource "aws_cloudwatch_log_destination_policy" "cw_logs_destination_policy" {
   destination_name = aws_cloudwatch_log_destination.cw_logs_destination.name
-  access_policy    = jsonencode(local.access_policy)
+  access_policy    = local.access_policy
 }
 
 resource "aws_iam_role" "logs_destination_role" {
