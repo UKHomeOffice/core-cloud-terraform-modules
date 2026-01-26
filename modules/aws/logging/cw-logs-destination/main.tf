@@ -37,10 +37,6 @@ locals {
   access_policy = var.organization_id != null ? local.org_policy : local.account_policy
 }
 
-  # Select policy based on whether organization_id is provided
-  access_policy = var.organization_id != null ? local.org_policy : local.account_policy
-}
-
 resource "aws_cloudwatch_log_destination" "cw_logs_destination" {
   name       = var.destination_name
   role_arn   = aws_iam_role.logs_destination_role.arn
@@ -51,7 +47,6 @@ resource "aws_cloudwatch_log_destination" "cw_logs_destination" {
 resource "aws_cloudwatch_log_destination_policy" "cw_logs_destination_policy" {
   destination_name = aws_cloudwatch_log_destination.cw_logs_destination.name
   access_policy    = jsonencode(local.access_policy)
-  var              = var.tags
 }
 
 resource "aws_iam_role" "logs_destination_role" {
