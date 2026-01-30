@@ -28,7 +28,7 @@ resource "aws_lambda_function" "this" {
       ACCOUNT_ID      = data.aws_caller_identity.current.account_id
 
       FILTER_NAME = var.name
-      REGION      = data.aws_region.current.name
+      REGION      = data.aws_region.current.id
       TAG         = var.tag_pattern
       OPT_IN      = var.opt_in_tag_value
       OPT_OUT     = var.opt_out_tag_value
