@@ -56,5 +56,6 @@ module "cwl-subscribe-with-tag" {
 | <a name="input_opt_in_tag_value"></a> [opt\_in\_tag\_value](#input\_opt\_in\_tag\_value) | The tag value which indicates opting-in. | `string` | `"true"` | no |
 | <a name="input_opt_out_tag_value"></a> [opt\_out\_tag\_value](#input\_opt\_out\_tag\_value) | The tag value which indicates opting-out. | `string` | `"false"` | no |
 | <a name="input_tag_pattern"></a> [tag\_pattern](#input\_tag\_pattern) | The tag pattern to match on. | `string` | n/a | yes |
+| <a name="input_tags"></a> [tags](#input\_tags) | Map of tags to apply to created resources. | `map` | n/a | no |
 
 <!-- END_TF_DOCS -->

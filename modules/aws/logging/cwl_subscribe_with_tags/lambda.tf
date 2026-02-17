@@ -34,6 +34,8 @@ resource "aws_lambda_function" "this" {
       OPT_OUT     = var.opt_out_tag_value
     }
   }
+
+  tags = var.tags
 }
 
 resource "aws_lambda_permission" "this" {
@@ -48,6 +50,7 @@ resource "aws_iam_role" "lambda" {
   name               = "${var.name}-lambda-function"
   description        = "Role that is assumed by ${var.name} lambda."
   assume_role_policy = data.aws_iam_policy_document.lambda-assume.json
+  tags               = var.tags
 }
 
 data "aws_iam_policy_document" "lambda-assume" {
@@ -69,6 +72,7 @@ data "aws_iam_policy_document" "lambda-assume" {
 resource "aws_cloudwatch_log_group" "this" {
   name              = "/aws/lambda/${var.name}"
   retention_in_days = var.log_retention_in_days
+  tags              = var.tags
 }
 
 resource "aws_iam_role_policy_attachment" "lambda" {
@@ -79,6 +83,7 @@ resource "aws_iam_role_policy_attachment" "lambda" {
 resource "aws_iam_policy" "lambda" {
   name   = "${var.name}-lambda-function"
   policy = data.aws_iam_policy_document.lambda.json
+  tags   = var.tags
 }
 
 data "aws_iam_policy_document" "lambda" {
@@ -92,7 +97,7 @@ data "aws_iam_policy_document" "lambda" {
           "logs:CreateLogGroup",
           "logs:CreateLogStream",
           "logs:PutLogEvents"
-        ], 
+        ],
         var.lambda_function_optional_additional_permissions
       )
     )
@@ -108,11 +113,12 @@ resource "aws_iam_role" "lambda_code" {
   name = "${var.name}-lambda-code"
 
   assume_role_policy = data.aws_iam_policy_document.lambda_code_assume.json
+  tags               = var.tags
 }
 
 data "aws_iam_policy_document" "lambda_code_assume" {
   statement {
-    effect = "Allow"
+    effect  = "Allow"
     actions = ["sts:AssumeRole"]
 
     principals {
@@ -132,6 +138,7 @@ resource "aws_iam_role_policy_attachment" "lambda_code" {
 resource "aws_iam_policy" "lambda_code" {
   name   = "${var.name}-lambda-code"
   policy = data.aws_iam_policy_document.lambda_code.json
+  tags   = var.tags
 }
 
 data "aws_iam_policy_document" "lambda_code" {
