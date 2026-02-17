@@ -42,3 +42,8 @@ variable "lambda_function_optional_additional_permissions" {
   description = "Optional additional permissions to add to the default lambda_function iam policy."
   default = []
 }
+
+variable "tags" {
+  description = "A map of tags to assign to the resource."
+  type        = map(string)
+}

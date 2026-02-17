@@ -23,6 +23,7 @@ resource "aws_cloudwatch_event_rule" "this" {
       }
     }
   )
+  tags = var.tags
 }
 
 resource "aws_cloudwatch_event_target" "this" {
