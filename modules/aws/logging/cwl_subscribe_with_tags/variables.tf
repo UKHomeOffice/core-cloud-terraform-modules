@@ -46,4 +46,5 @@ variable "lambda_function_optional_additional_permissions" {
 variable "tags" {
   description = "A map of tags to assign to the resource."
   type        = map(string)
+  default     = {}
 }
