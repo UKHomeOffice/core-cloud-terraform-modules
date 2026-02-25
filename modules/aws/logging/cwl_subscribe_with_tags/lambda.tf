@@ -23,9 +23,10 @@ resource "aws_lambda_function" "this" {
 
   environment {
     variables = {
-      DESTINATION_ARN = var.cloudwatch_logs_destination_arn
-      ROLE_ARN        = aws_iam_role.lambda_code.arn
-      ACCOUNT_ID      = data.aws_caller_identity.current.account_id
+      DESTINATION_ARN    = var.cloudwatch_logs_destination_arn
+      LOGGING_ACCOUNT_ID = var.logging_account_id
+      ROLE_ARN           = aws_iam_role.lambda_code.arn
+      ACCOUNT_ID         = data.aws_caller_identity.current.account_id
 
       FILTER_NAME = var.name
       REGION      = data.aws_region.current.id
@@ -104,7 +105,7 @@ data "aws_iam_policy_document" "lambda" {
 
     # tfsec:ignore:aws-iam-no-policy-wildcards
     resources = [
-      "*"
+      "arn:aws:logs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:log-group:*"
     ]
   }
 }
