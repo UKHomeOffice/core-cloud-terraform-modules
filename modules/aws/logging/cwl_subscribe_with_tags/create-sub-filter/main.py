@@ -1,6 +1,23 @@
 import boto3
 import os
 
+def extract_account_id_from_arn(arn: str) -> str:
+    try:
+        return arn.split(":")[4]
+    except (IndexError, AttributeError):
+        return ""
+
+# validate that the destination account matches the expected logging account to prevent misconfigurations that could lead to data being sent to the wrong account.
+def is_destination_allowed(dest_account: str, expected_account: str) -> bool:
+    
+    if dest_account != expected_account:
+        print(
+            f"Destination account mismatch: "
+            f"destination={dest_account}, expected={expected_account}"
+        )
+        return False
+
+    return True
 
 def handler(event, context):
     tag = os.environ.get("TAG")
@@ -10,11 +27,17 @@ def handler(event, context):
     filter_name = os.environ.get("FILTER_NAME")
     filter_pattern = ""  # leave blank to capture all
     destination_arn = os.environ.get("DESTINATION_ARN")
+    logging_account_id = os.environ.get("LOGGING_ACCOUNT_ID")
     role_arn = os.environ.get("ROLE_ARN")
     source = event['source']
     detail_type = event['detail-type']
 
     print(f"destination={destination_arn}")
+
+    dest_account = extract_account_id_from_arn(destination_arn)
+    if not is_destination_allowed(dest_account, logging_account_id):
+        print("Aborting subscription creation due to destination account mismatch.")
+        return Exception("Destination account validation failed")
 
     if source == 'aws.tag' and detail_type == 'Tag Change on Resource':
         log_group_arn = event['resources'][0]

@@ -48,3 +48,7 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+variable "logging_account_id" {
+  description = "The AWS account ID where the CloudWatch Logs destination lives"
+  type        = string
+}
