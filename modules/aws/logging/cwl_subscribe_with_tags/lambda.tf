@@ -48,7 +48,7 @@ resource "aws_lambda_permission" "this" {
 }
 
 resource "aws_iam_role" "lambda" {
-  name               = "${var.name}-lambda-function"
+  name               = "${var.name}-${var.environment}-lambda-function"
   description        = "Role that is assumed by ${var.name} lambda."
   assume_role_policy = data.aws_iam_policy_document.lambda-assume.json
   tags               = var.tags
@@ -93,7 +93,6 @@ data "aws_iam_policy_document" "lambda" {
     actions = distinct(
       concat(
         [
-          "logs:PutSubscriptionFilter",
           "logs:DeleteSubscriptionFilter",
           "logs:CreateLogGroup",
           "logs:CreateLogStream",
@@ -103,9 +102,21 @@ data "aws_iam_policy_document" "lambda" {
       )
     )
 
-    # tfsec:ignore:aws-iam-no-policy-wildcards
     resources = [
       "arn:aws:logs:${data.aws_region.current.region}:${data.aws_caller_identity.current.account_id}:log-group:*"
+    ]
+  }
+
+  statement {
+    effect = "Allow"
+    actions = [
+      "logs:PutSubscriptionFilter"
+    ]
+
+    # allow both the log group and the destination arn as the destination arn may be in another account.
+    resources = [
+      "arn:aws:logs:${data.aws_region.current.region}:${data.aws_caller_identity.current.account_id}:log-group:*",
+      var.cloudwatch_logs_destination_arn
     ]
   }
 }

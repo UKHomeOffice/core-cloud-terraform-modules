@@ -52,3 +52,8 @@ variable "logging_account_id" {
   description = "The AWS account ID where the CloudWatch Logs destination lives"
   type        = string
 }
+
+variable "environment" {
+  description = "Environment name (e.g. DynatraceTest, DynatraceSandbox etc.). Should match the lambda iam role name as created in the sender account. This allows to restrict which principals can put subscription filters on the destination environment."
+  type        = string
+}
