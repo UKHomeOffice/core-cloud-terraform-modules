@@ -48,7 +48,7 @@ resource "aws_lambda_permission" "this" {
 }
 
 resource "aws_iam_role" "lambda" {
-  name               = "${var.name}-lambda-function"
+  name               = "${var.name}-${var.environment}-lambda-function"
   description        = "Role that is assumed by ${var.name} lambda."
   assume_role_policy = data.aws_iam_policy_document.lambda-assume.json
   tags               = var.tags
