@@ -13,7 +13,7 @@ resource "aws_lambda_function" "this" {
 
   package_type                   = "Zip"
   handler                        = "main.handler"
-  runtime                        = "python3.9"
+  runtime                        = "python3.14"
   reserved_concurrent_executions = -1
   timeout                        = 180
   memory_size                    = 768
